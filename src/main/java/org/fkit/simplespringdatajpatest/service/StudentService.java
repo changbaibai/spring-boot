@@ -1,14 +1,12 @@
 package org.fkit.simplespringdatajpatest.service;
 
 import java.util.List;
-
+import java.util.Optional;
 
 import javax.annotation.Resource;
 
 import org.fkit.simplespringdatajpatest.bean.Student;
 import org.fkit.simplespringdatajpatest.repository.StudentRepository;
-import org.fkit.simplespringdatajpatest.repository.ClazzRepository;
-import org.fkit.simplespringdatajpatest.bean.Clazz;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,8 +18,6 @@ public class StudentService {
 	// 注入数据访问层接口对象 
 	@Resource
 	private StudentRepository studentRepository;
-	@Resource
-	private ClazzRepository clazzRepository;
 	
 	@Transactional
     public List<Student> getStudentList() {
@@ -52,26 +48,6 @@ public class StudentService {
     public void edit(Student student) {
         studentRepository.save(student);
     }
-    
-	public List<Student> getStusByClazzName(String clazzName) {
-		return studentRepository.findStudentsByClazzName(clazzName);
-	}
-	public void saveClazzAll(Clazz clazz) {
-		clazzRepository.save(clazz);
-	}
-    public List<Clazz> getClazzList() {
-        return clazzRepository.findAll();
-    }
-	public void saveStudentAll(Student student) {
-		studentRepository.save(student);
-	}
-    public Clazz findClazzByCode(int id) {
-        return clazzRepository.findById(id);
-    }
-	public void deleteClazz(int id) {
-		clazzRepository.deleteById(id);
-		// TODO Auto-generated method stub
-		
-	}
+
 
 }

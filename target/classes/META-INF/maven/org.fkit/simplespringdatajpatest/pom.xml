@@ -65,26 +65,5 @@
 	    <artifactId>sqljdbc4</artifactId>
 	    <version>4.0</version>
 	</dependency>
-		<!--热部署依赖 Spring Boot spring-boot-devtools 依赖 -->
-	<dependency>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-devtools</artifactId>
-		<optional>true</optional>
-		<scope>true</scope>
-	</dependency>
   </dependencies>
-
-  <!--热部署配置 添加spring-boot-maven-plugin -->
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<!-- 如果没有该项配置，devtools不会起作用，即应用不会restart -->
-					<fork>true</fork>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 </project>
