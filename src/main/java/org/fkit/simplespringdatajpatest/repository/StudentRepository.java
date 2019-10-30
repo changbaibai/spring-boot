@@ -45,4 +45,14 @@ public interface StudentRepository extends JpaRepository<Student, Integer> {
 	
 	Student findById(int id);
 	
+	/**
+	 * @Query写法
+	 * 根据班级名称查询这个班级下所有的学生信息
+	 * ?1此处使用的是参数的位置，代表的是第一个参数
+	 * 此写法与 findByClazz_name方法实现的功能完全一致
+	 * */
+
+
+	List<Student> findStudentsByClazzName(String clazzName);
+	
 }

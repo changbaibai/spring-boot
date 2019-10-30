@@ -3,15 +3,18 @@ package org.fkit.simplespringdatajpatest.bean;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="tb_student")
 public class Student implements Serializable{
-
+	
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -21,6 +24,24 @@ public class Student implements Serializable{
 	private String address ;
 	private int age ; 
 	private char sex;
+	// 学生与班级是多对一的关系，这里配置的是双向关联
+	@ManyToOne(fetch=FetchType.LAZY,
+			targetEntity=Clazz.class
+			)
+	@JoinColumn(name="clazzId",referencedColumnName="code")
+	private Clazz clazz ;
+	public Student() {
+
+	}
+	public Student(String name, String address, int age, char sex,
+			Clazz clazz) {
+		super();
+		this.name = name;
+		this.address = address;
+		this.age = age;
+		this.sex = sex;
+		this.clazz = clazz;
+	}
 	public int getId() {
 		return id;
 	}
@@ -50,5 +71,13 @@ public class Student implements Serializable{
 	}
 	public void setSex(char sex) {
 		this.sex = sex;
-	} 
+	}
+	public Clazz getClazz() {
+		return clazz;
+	}
+	public void setClazz(Clazz clazz) {
+		this.clazz = clazz;
+	}
+
 }
+
