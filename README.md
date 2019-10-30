@@ -1,2 +1,3 @@
-# spring-boot学习 JPA直连表查询
+# spring-boot学习 jpa简单增删改查
+
 
