@@ -1,2 +1,2 @@
-# spring-boot 学习 项目在其他分支
+# spring-boot 学习 JPA直连表查询
 
