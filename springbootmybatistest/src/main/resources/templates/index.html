@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>studentList</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+	  <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+	  <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+	  <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+
+<script type="text/javascript">
+	$(document).ready(function(){//初始化	加载
+		var num = 1;
+		loadPage(num);//默认
+	});		
+	function loadPage(num){
+		$.ajax({ 
+			type: "POST", //发送POST
+			url: "cpn", //发送的地址
+			dataType: "json", //传输数据的格式
+			data: {"page": num}, //传输的数据
+			success: function(data) {   //成功的回调函数
+			    var ht = "";//定义
+			    $(".prePage").show();//定义
+				$(".nextPage").show();//定义
+				var lts = data.list;
+				for(var i in lts){
+					ht += "<li class='apu_aboutAndContact_li'><a href='"+lts[i].cnPath+"'>"+lts[i].cnTitle+"</a><span class='apu_aboutAndContact_date'>"+lts[i].cnDate+"</span></li>";
+				}
+				$("#ad_ul").html(ht);//显示数据到页面
+				//存放页面数据
+				$("#ad_page").html("<span id='prePage' class='ad_page_none'>"+data.prePage+"</span><span id='nextPage' class='ad_page_none'>"+data.nextPage+"</span><span id='pagesPage' class='ad_page_none'>"+data.pages+"</span><span id='nowPage' class='ad_page_none'>"+data.pageNum+"</span>");
+				if(data.prePage == 0){//判断上一页按钮
+					$(".prePage").hide();
+				}
+				if(data.pageNum == data.pages){//判断下一页按钮
+					$(".nextPage").hide();
+				}
+			}, 
+			error: function() {   //失败的回调函数
+				 console.log("error");
+			} 
+		}) 	 
+	}
+	function prePage(){//上一页
+		var pre = $("#prePage").text();
+		loadPage(pre);
+	}
+	function nextPage(){//下一页
+		var next = $("#nextPage").text();
+		loadPage(next);
+	}
+	function goPage(){//跳转
+		var go = $(".select_go").val().trim();
+		var last = $("#pagesPage").text();
+		if(go > 0 && go <= last){
+		    loadPage(go);
+		    $(".select_go").val("");//清空数据
+	    }
+		console.log(last);//打印
+	}
+</script>
+</head>
+<body class="container">
+<br/>
+<h1>学生信息管理</h1>
+<br/>
+
+
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+  <!-- Brand -->
+  <a class="navbar-brand" href="/list">首页</a>
+   <form action="/getClazzStus" class="form-inline" role="search">
+    <input class="form-control" type="text" name="clazzName" id="clazzName" placeholder="请输入班级名称">
+    <button class="btn btn-success" type="submit">搜索</button>
+  </form>
+ 
+  <!-- Links -->
+<div class="dropdown" style="left:650px">
+	  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+	   更多
+	  </button>
+	  <div class="dropdown-menu">
+	    <a class="dropdown-item" href="/toAdd" th:href="@{/toAdd}">添加学生信息</a>
+	    <a class="dropdown-item" href="/toAddClazz">添加班级信息</a>
+	    <a class="dropdown-item" href="/listClazz">查询班级信息</a>
+	  </div>
+	</div>
+
+</nav>
+
+<br/><br/>
+<div class="with:80%">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>编号</th>
+            <th>姓名</th>
+            <th>地址</th>
+            <th>年龄</th>
+            <th>性别</th>
+            <th>班级编号</th>
+            <th>班级名称</th>
+            <th>操作</th>
+ 
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="student : ${students}">
+            <th scope="row" th:text="${student.id}"></th>
+            <td th:text="${student.name}"></td>
+            <td th:text="${student.address}"></td>
+            <td th:text="${student.age}"></td>
+            <td th:text="${student.sex}"></td>
+            <td th:text="${student.clazz.code}"></td>
+             <td th:text="${student.clazz.name}"></td>
+            <td><a th:href="@{/toEdit(id=${student.id})}"  class="btn btn-info">编辑</a>  <a th:href="@{/delete(id=${student.id})}"   class="btn btn-danger">删除</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="container">
+  <h2>分页</h2>
+  <p>要创建一个基本的分页可以在 ul 元素上添加 .pagination 类。然后在 li 元素上添加 .page-item 类：</p>                  
+  <ul class="pagination">
+    <li class="page-item"><a οnclick="prePage()" class="page-link" >Previous</a></li>
+    <li class="page-item"><a class="page-link" href="#">1</a></li>
+    <li class="page-item"><a class="page-link" href="#">2</a></li>
+    <li class="page-item"><a class="page-link" href="#">3</a></li>
+    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+  </ul>
+</div>
+
+<div class="apu_aboutAndContact_apd" >
+	<ul id="ad_ul" class="apu_aboutAndContact_ul"></ul>
+</div>
+<div class="apu_aboutAndContact_page">
+	<ul class="apu_aboutAndContact_page_ul">
+		<li id="ad_page" class="apu_aboutAndContact_page_li" style="display:none"></li>
+		<li class="apu_aboutAndContact_page_li">
+			<a οnclick="prePage()" class="apu_aboutAndContact_page_btn prePage">上一页</a>
+		</li>
+		<li class="apu_aboutAndContact_page_li">
+			<input type="text" class="apu_aboutAndContact_page_input select_go">
+			<a οnclick="goPage()" class="apu_aboutAndContact_page_go">GO</a>
+		</li>
+		<li class="apu_aboutAndContact_page_li">
+		    <a οnclick="nextPage()" class="apu_aboutAndContact_page_btn nextPage">下一页</a>
+		</li>
+	</ul>
+</div>	
+
+
+
+</body>
+</html>
