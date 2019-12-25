@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import dms.pojo.FKRole;
 import dms.pojo.FKUser;
+import dms.repository.RoleRepository;
 import dms.service.RoleService;
 import dms.service.UserService;
 
@@ -50,12 +51,17 @@ public class PropertyController {
     }
     
     @RequestMapping("/editRole")
-    public String add(String name,String aut,String cid) {
-    	FKUser user = userService.getUser(name);
+    public String add(String name,String sid,String cid) {
+    	FKUser user1 = userService.getUser(name);
+    	FKUser user =new FKUser();
     	FKRole role =new FKRole();
     	Long id = Long.parseLong(cid);
     	role.setId(id);
-    	role.setAuthority(aut);
+    	Long id2 = Long.parseLong(sid);
+    	user.setId(id2);
+    	user.setLoginName(user1.getLoginName());
+    	user.setPassword(user1.getPassword());
+    	user.setUsername(user1.getUsername());
     	List<FKRole> roles =Arrays.asList(role);
     	user.setRoles(roles);
     	userService.saveAll(user);

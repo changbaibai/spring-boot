@@ -44,7 +44,7 @@ public class UserService implements UserDetailsService{
         return userRepository.save(fkUser);
     }
     public FKUser saveAll(FKUser fkUser) {
-        return userRepository.
+        return userRepository.save(fkUser);
     }
 	public FKUser getUser(String name) {
 		return userRepository.findByLoginName(name);
@@ -67,7 +67,6 @@ public class UserService implements UserDetailsService{
 	        stuMap.put("authority",authority);
 			re.add(stuMap);
 		}
-		System.out.println("嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻"+re);
 		return re;
 	}
   

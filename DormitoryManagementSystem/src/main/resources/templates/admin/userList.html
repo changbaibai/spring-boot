@@ -49,13 +49,13 @@
 			        <span class="sr-only">切换下拉菜单</span>
 			    </button>
 			    <ul class="dropdown-menu" role="menu">
-			        <li><a th:href="@{/admin/editRole(name=${user.loginName},aut=ROLE_USER,cid=1)}">添加ROLE_USER权限</a></li>
+			        <li><a th:href="@{/admin/editRole(name=${user.loginName},sid=${user.id},cid=1)}">添加ROLE_USER权限</a></li>
 
 			        <li class="divider"></li>
-			        <li><a th:href="@{/admin/editRole(name=${user.loginName},aut=ROLE_DBA,cid=3)}">添加ROLE_DBA权限</a></li>
+			        <li><a th:href="@{/admin/editRole(name=${user.loginName},sid=${user.id},cid=3)}">添加ROLE_DBA权限</a></li>
 			       
 			       <li class="divider"></li>
-			        <li><a th:href="@{/admin/editRole(name=${user.loginName},aut=ROLE_ADMIN,cid=2)}">添加ROLE_ADMIN权限</a></li>
+			        <li><a th:href="@{/admin/editRole(name=${user.loginName},sid=${user.id},cid=2)}">添加ROLE_ADMIN权限</a></li>
 			    </ul>
 			</div>
 			</td>

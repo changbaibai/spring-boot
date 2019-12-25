@@ -5,6 +5,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import dms.pojo.FKRole;
+import dms.pojo.FKUser;
 import dms.repository.RoleRepository;
 
 
@@ -16,4 +17,5 @@ public class RoleService {
 	public void save(FKRole fKRole) {
 		roleRepository.save(fKRole);
 	}
+
 }
