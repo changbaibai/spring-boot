@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>studentList</title>
+	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container">
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+			<nav class="navbar navbar-default" role="navigation" >
+				<div class="navbar-header">
+					 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" href="#">学生宿舍管理系统</a>
+				</div>
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav navbar-right">
+						<li class="dropdown">
+							 <a href="#" class="dropdown-toggle" data-toggle="dropdown">欢迎<span th:text="${username}">未登录！</span ><strong class="caret"></strong></a>
+							<ul class="dropdown-menu">
+
+								<li>
+									 <a href="#">登录</a>
+								</li>
+								<li>
+									 <a href="/toRegist">注册</a>
+								</li>
+						        <li>
+									 <a href="/logout">退出</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+				
+			</nav>
+		</div>
+	</div>
+	<div class="row clearfix">
+		<div class="col-md-2 column">
+				<div class="panel-group" id="panel-108328">
+				     
+				  <div class="panel panel-default">
+						<div class="panel-heading">
+							 <a class="panel-title" data-toggle="collapse" data-parent="#panel-108328" href="#panel-element-228487"> 权限管理</a>
+						</div>
+						<div id="panel-element-228487" class="panel-collapse in">
+							<div class="panel-body">
+								<ul>
+									<li  > <a href="/admin/userList" target="table"><span>权限信息</span></a></li>
+								 </ul>
+							</div>
+							
+						</div>
+					</div>
+				     
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							 <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-108328" href="#panel-element-259345"> 宿舍管理</a>
+						</div>
+						<div id="panel-element-259345" class="panel-collapse collapse">
+							<div class="panel-body">
+								 <ul>
+								 
+									<li  >  <a href="/admin/listDormInfo" target="table"><span>宿舍信息</span></a></li>
+									<li  >  <a href="/admin/index" target="table"><span>宿舍费用信息</span></a></li>
+								 </ul>
+								
+							</div>
+						</div>
+					</div>
+					
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							 <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-108328" href="#panel-element-259347"> 学生管理</a>
+						</div>
+						<div id="panel-element-259347" class="panel-collapse collapse">
+							<div class="panel-body">
+								<ul>		
+									<li  > <a href="/admin/getStusByDynamic" target="table"><span>学生信息</span></a></li>
+								 </ul>
+							</div>
+						</div>
+					</div>
+					
+								
+					
+
+			</div>
+		</div>
+		<div class="col-md-10 column">
+			<iframe  name="table" frameborder="0" width="100%" style="height:750px;">
+            </iframe>
+		</div>
+		
+	</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="UTF-8"/>
+    
+    <title>dcList</title>
+	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+			<nav class="navbar navbar-default navbar-inverse" role="navigation">
+				
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<form class="navbar-form navbar-left" role="search">
+						<div class="form-group">
+							<input type="text" class="form-control" name="id" id="id" placeholder="编号"/>
+						</div> <button type="submit" class="btn btn-default">搜索</button>
+					</form>
+
+				</div>
+			</nav>
+<div class="with:80%">
+<a href="/admin/export"><img alt="下载" src="../img/下载.png"></a>
+<a  class="move_left" data-toggle="modal" data-target="#uploadModel" ><img alt="上传" src="../img/上传.png"></a>
+<a class="move_left" data-toggle="modal" data-target="#addModel"  ><img alt="添加" src="../img/添加.png"></a> 
+
+ <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>编号</th>
+            <th>电费</th>
+            <th>水费</th>
+            <th>住宿费</th>
+            <th>维修费</th>
+            <th>操作</th>
+    
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="dc : ${dcs}">
+            <th scope="row" th:text="${dc.id}"></th>
+            <td th:text="${dc.electric}"></td>
+            <td th:text="${dc.water}"></td>
+            <td th:text="${dc.hotelRates}"></td>
+            <td th:text="${dc.upkeep}"></td>
+<!--             data-toggle="modal" data-target="#editModel" -->
+         <td><a  th:href="@{/admin/toEdit(id=${dc.id})}"  class="btn btn-info">编辑</a>
+          <a th:href="@{/admin/delete(id=${dc.id})}"   class="btn btn-danger">删除</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- 上传框（Modal） -->
+<div class="modal fade" id="uploadModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">批量上传学生信息</h4>
+            </div>
+            <div class="modal-body">
+	        <form class="form-horizontal" id="form_table" th:action="@{/admin/import}" enctype="multipart/form-data" method="post">      
+	        <input class="form-input" type="file" name="filename">批量上传学生信息</input>     
+	        <button type="submit" class="btn btn-info">导入</button>
+	         </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<!-- 添加框（Modal） -->
+<div class="modal fade" id="addModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">添加</h4>
+            </div>
+            <div class="modal-body">
+             <form class="form-horizontal" th:action="@{/admin/add}" method="post">
+        <div class="form-group">
+            <label for="name" class="col-sm-2 control-label">电费</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="electric" id="electric" 
+                       placeholder="请填写"/>
+            </div>
+        </div>
+         <div class="form-group">
+            <label for="water" class="col-sm-2 control-label">水费</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="water" id="water" 
+                       placeholder="请填写"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="hotelRates" class="col-sm-2 control-label">住宿费</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="hotelRates" id="hotelRates"  placeholder="请填写"/>
+            </div>
+        </div>
+            <div class="form-group">
+            <label for="upkeep" class="col-sm-2 control-label">维修费</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="upkeep" id="upkeep"  placeholder="请填写"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="submit" value="提交" class="btn btn-info"/>
+                &nbsp; &nbsp; &nbsp;
+                <input type="reset" value="重置" class="btn btn-info"/>
+            </div>
+
+        </div>
+    </form></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<!-- 编辑框（Modal） -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">编辑</h4>
+            </div>
+            <div class="modal-body">
+             <form class="form-horizontal" th:action="@{/admin/add}" method="post">
+        <div class="form-group">
+            <label for="name" class="col-sm-2 control-label">电费</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="name" id="name" th:value="*{name}"
+                       placeholder="请填写"/>
+            </div>
+        </div>
+         <div class="form-group">
+            <label for="water" class="col-sm-2 control-label">水费</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="water" id="water" th:value="*{water}"
+                       placeholder="请填写"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="hotelRates" class="col-sm-2 control-label">住宿费</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="hotelRates" id="hotelRates" th:value="*{hotelRates}" placeholder="请填写"/>
+            </div>
+        </div>
+            <div class="form-group">
+            <label for="upkeep" class="col-sm-2 control-label">维修费</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="upkeep" id="sex" th:value="*{upkeep}" placeholder="请填写"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="submit" value="提交" class="btn btn-info"/>
+                &nbsp; &nbsp; &nbsp;
+                <input type="reset" value="重置" class="btn btn-info"/>
+            </div>
+
+        </div>
+    </form></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+</body>
+</html>
+<style>
+.move_left{
+  margin-left:40px;
+}
+</style>

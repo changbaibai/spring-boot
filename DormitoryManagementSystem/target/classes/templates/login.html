@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <title>基于MyBatis的Security安全控制</title>
+<link rel="stylesheet" th:href="@{css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{css/bootstrap-theme.min.css}"/> 
+<script type="text/javascript" th:src="@{js/jquery-1.11.0.min.js}"></script>
+<script type="text/javascript" th:src="@{js/bootstrap.min.js}"></script>
+
+<script type="text/javascript">
+	$(function(){
+		$("#loginBtn").click(function(){
+			var loginName = $("#loginName");
+			var password = $("#password");
+			var msg = "";
+			if(loginName.val() == ""){
+				msg = "登录名称不能为空!";
+				loginName.focus();
+			}else if(password.val() == ""){
+				msg = "密码不能为空!";
+				password.focus();
+			}
+			if(msg != ""){
+				alert(msg);
+				return false;
+			}
+			$("#loginForm").submit();
+		});
+	});
+</script>
+</head>
+<body>
+    <div class="container">
+        <div class="form row">
+            <div class="form-horizontal col-md-offset-3" id="login_form">
+                <h3 class="form-title">LOGIN</h3>
+                <form id="loginForm" th:action="@{/login}" method="post" class="form-horizontal">
+                <div class="col-md-9">
+                					<!-- 用户名或密码错误提示 -->
+						<div th:if="${param.error != null}">
+						  <div class="alert alert-danger">
+								<p><font color="red">用户名或密码错误!</font></p>
+							</div>
+						</div>
+						<!-- 注销提示 -->
+						<div th:if="${param.logout != null}">
+						  <div class="alert alert-success">
+								<p><font color="red">用户已注销成功!</font></p>
+							</div>
+						</div>
+                    <div class="form-group">
+                        <i class="fa fa-user fa-lg"></i>
+                        <input class="form-control required" type="text" placeholder="登录名" id="loginName" name="loginName" autofocus="autofocus" maxlength="20"/>
+                    </div>
+                    <div class="form-group">
+                            <i class="fa fa-lock fa-lg"></i>
+                            <input class="form-control required" type="password" placeholder="密码" id="password" name="password" maxlength="8"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox">
+                            <input type="checkbox" name="remember" value="1"/>记住我
+                            
+                        </label>
+                             
+                     
+                         
+                           
+                      
+                    </div>
+                    					
+                    <div class="form-group col-md-offset-9">
+                        <a href="toRegist">没有账号，点击注册</a>
+                        <button type="button" id="loginBtn" class="btn btn-success pull-right" name="button">登录</button>
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+</div>
+
+</body>
+</html>
+
+<style>
+body{
+    background: url("../img/2.jpg") no-repeat; /* 不重复 */
+
+    background-size: cover; /*  铺满 */
+    
+
+    
+    
+
+}
+
+.form{background: rgba(255,255,255,0.2);width:400px;margin:120px auto;}
+/*阴影*/
+.fa{display: inline-block;top: 27px;left: 6px;position: relative;color: #ccc;}
+input[type="text"],input[type="password"]{padding-left:26px;}
+.checkbox{padding-left:21px;}</style>
