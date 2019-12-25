@@ -38,11 +38,13 @@ public class UserService implements UserDetailsService{
 	 *  其中定义了一些可以获取用户名、密码、权限等与认证相关的信息的方法。
 	 */
     public FKUser save(FKUser fkUser) {
-    	System.out.println("A:  "+fkUser.getPassword());
     	String s =fkUser.getPassword();
     	String password	=new BCryptPasswordEncoder().encode(s);
 		fkUser.setPassword(password);
         return userRepository.save(fkUser);
+    }
+    public FKUser saveAll(FKUser fkUser) {
+        return userRepository.
     }
 	public FKUser getUser(String name) {
 		return userRepository.findByLoginName(name);

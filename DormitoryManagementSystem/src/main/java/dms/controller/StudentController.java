@@ -123,7 +123,7 @@ public class StudentController {
 	public String getStusByDynamic(Student student,Model model) {
 		
         List<Map<String, Object>> students = studentService.getStusByDynamic(student);
-		 model.addAttribute("students", students);
+		model.addAttribute("students", students);
         return "admin/studentList";
 	} 
 	

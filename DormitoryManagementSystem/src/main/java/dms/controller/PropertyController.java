@@ -1,6 +1,7 @@
 package dms.controller;
 
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -35,8 +36,6 @@ public class PropertyController {
     
     @RequestMapping("/saveRole")
     public String saveRole(Model model,String sid,String loginName,String username,String authority) {
-    	System.out.println("AAAAAAAAAAAAAAAAAAA啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊"+sid + "BBBBBBBBBBBBBBBBBBB咩咩咩咩咩咩咩咩咩咩咩咩咩咩咩咩咩咩咩"+ authority);
-    
     	Long id = Long.parseLong(sid);
     	FKUser user= new FKUser();
     	user.setId(id);
@@ -48,6 +47,19 @@ public class PropertyController {
 		userService.save(user);
 		roleService.save(role);
         return "redirect:/admin/userList";
+    }
+    
+    @RequestMapping("/editRole")
+    public String add(String name,String aut,String cid) {
+    	FKUser user = userService.getUser(name);
+    	FKRole role =new FKRole();
+    	Long id = Long.parseLong(cid);
+    	role.setId(id);
+    	role.setAuthority(aut);
+    	List<FKRole> roles =Arrays.asList(role);
+    	user.setRoles(roles);
+    	userService.saveAll(user);
+    	return "redirect:/admin/userList";
     }
 
 }

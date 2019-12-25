@@ -35,6 +35,10 @@ public class FKUser implements Serializable{
 	inverseJoinColumns={@JoinColumn(name="role_id")})
     private List<FKRole> roles;
 
+    
+   
+   
+
 	public Long getId() {
 		return id;
 	}
@@ -67,9 +71,6 @@ public class FKUser implements Serializable{
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-
-
 
 	public List<FKRole> getRoles() {
 		return roles;

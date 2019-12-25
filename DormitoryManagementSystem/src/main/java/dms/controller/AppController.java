@@ -1,6 +1,7 @@
 package dms.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import dms.pojo.FKRole;
 import dms.pojo.FKUser;
 import dms.service.UserService;
 
@@ -40,6 +42,13 @@ public class AppController {
 
 	    @RequestMapping("/regist")
 	    public String add(FKUser fkuser) {
+	    	FKRole role =new FKRole();
+	    	long a=1;
+	    	role.setId(a);
+	    	role.setAuthority("ROLE_USER");
+	    	List<FKRole> roles =Arrays.asList(role);
+	    	fkuser.setRoles(roles);
+	    	System.out.println("注册注册注册注册注册注册注册"+fkuser);
 	    	userService.save(fkuser);
 	        return "login";
 	    }
