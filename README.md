@@ -1,3 +1,7 @@
-# spring-boot 学习 有其他项目在其他分支
-1.springbootmybatistest————>spring boot整合mybatis完成简单增删改查。
- ![image](DormitoryManagementSystem/doc/L%$OH0FGS[A{`U9VJG5DV9V.png）
+#学生宿舍管理系统——DormitoryManagementSystem
+效果图
+![image]（https://github.com/changbaibai/spring-boot/blob/master/DormitoryManagementSystem/doc/2.png）
+![image]（https://github.com/changbaibai/spring-boot/blob/master/DormitoryManagementSystem/doc/3.png）
+![image]（https://github.com/changbaibai/spring-boot/blob/master/DormitoryManagementSystem/doc/L%25%24OH0FGS%5BA%7B%60U9VJG5DV9V.png）
+
+
