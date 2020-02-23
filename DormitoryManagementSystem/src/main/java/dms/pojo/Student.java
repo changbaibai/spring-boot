@@ -1,6 +1,5 @@
 package dms.pojo;
 
-import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,14 +8,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
 @Entity
 @Table(name="tb_student")
-public class Student implements Serializable{
+public class Student {
 	
-	private static final long serialVersionUID = 1L;
+
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,21 +27,24 @@ public class Student implements Serializable{
 	private String phone;
 	// 学生与宿舍是多对一的关系，这里配置的是双向关联
 	@ManyToOne(fetch=FetchType.LAZY,
-			targetEntity=DormInfo.class
+			targetEntity=Dorm.class
 			)
-	@JoinColumn(name="dorminfoId",referencedColumnName="code")
-	private DormInfo dorminfo;
+	@JoinColumn(name="dormId",referencedColumnName="code")
+	private Dorm dorm;
+	@ManyToOne
+	private Clazz clazz;
 	public Student() {
 
 	}
 	public Student(String name, String address, String sno, String phone,
-			DormInfo dorminfo) {
+			Dorm dorm,Clazz clazz) {
 		super();
 		this.name = name;
 		this.address = address;
 		this.sno = sno;
 		this.phone = phone;
-		this.dorminfo = dorminfo;
+		this.dorm= dorm;
+		this.clazz = clazz;
 	}
 
 	public int getId() {
@@ -75,11 +78,17 @@ public class Student implements Serializable{
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public DormInfo getDorminfo() {
-		return dorminfo;
+	public Dorm getDorm() {
+		return dorm;
 	}
-	public void setDorminfo(DormInfo dorminfo) {
-		this.dorminfo = dorminfo;
+	public void setDorm(Dorm dorm) {
+		this.dorm = dorm;
+	}
+	public Clazz getClazz() {
+		return clazz;
+	}
+	public void setClazz(Clazz clazz) {
+		this.clazz = clazz;
 	}
 
 

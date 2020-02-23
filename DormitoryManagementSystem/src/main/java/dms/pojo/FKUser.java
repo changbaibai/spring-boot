@@ -1,6 +1,5 @@
 package dms.pojo;
 
-import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,9 +15,9 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="tb_user")
-public class FKUser implements Serializable{
+public class FKUser {
 	
-	private static final long serialVersionUID = 1L;
+
 	
 	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)

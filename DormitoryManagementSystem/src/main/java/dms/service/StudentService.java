@@ -19,9 +19,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import dms.pojo.DormInfo;
+import dms.pojo.Dorm;
 import dms.pojo.Student;
-import dms.repository.DormInfoRepository;
+import dms.repository.DormRepository;
 import dms.repository.StudentRepository;
 
 
@@ -33,7 +33,7 @@ public class StudentService {
 	@Resource
 	private StudentRepository studentRepository;
 	@Resource
-	private DormInfoRepository dormInfoRepository;
+	private DormRepository dormInfoRepository;
 	
 	@Transactional
     public List<Student> getStudentList() {
@@ -44,10 +44,10 @@ public class StudentService {
 		studentRepository.save(student);
 	}
 
-	public void saveDormInfoAll(DormInfo dormInfo) {
+	public void saveDormInfoAll(Dorm dormInfo) {
 		dormInfoRepository.save(dormInfo);
 	}
-    public List<DormInfo> getDormInfoList() {
+    public List<Dorm> getDormInfoList() {
         return dormInfoRepository.findAll();
     }
 	public void saveStudentAll(Student student) {
@@ -91,10 +91,10 @@ public class StudentService {
 						predicates.add(cb.equal(root.<String> get("sno"),student.getSno()));
 					}
 					/** 判断是否传入了宿舍名来查询 */
-					if(student.getDorminfo()!=null && !StringUtils.isEmpty(student.getDorminfo().getName())){
+					if(student.getDorm()!=null && !StringUtils.isEmpty(student.getDorm().getName())){
 						root.join("DormInfo", JoinType.INNER);
 						Path<String> dormInfoName = root.get("DormInfo").get("name");
-						predicates.add(cb.equal(dormInfoName, student.getDorminfo().getName()));
+						predicates.add(cb.equal(dormInfoName, student.getDorm().getName()));
 					}
 				}
 				return query.where(predicates.toArray(new Predicate[predicates.size()])).getRestriction();
@@ -109,18 +109,18 @@ public class StudentService {
 			stuMap.put("address", stu.getAddress());
 			stuMap.put("sno", stu.getSno());
 			stuMap.put("phone", stu.getPhone());
-			stuMap.put("dormInfoCode", stu.getDorminfo().getCode());
-			stuMap.put("dormInfoName", stu.getDorminfo().getName());
-			stuMap.put("dormInfoType", stu.getDorminfo().getType());
+			stuMap.put("dormInfoCode", stu.getDorm().getCode());
+			stuMap.put("dormInfoName", stu.getDorm().getName());
+			stuMap.put("dormInfoType", stu.getDorm().getType());
 			results.add(stuMap);
 		}
 		return results;
 	}
-    public DormInfo  findDormInfoByCode(int code) {
+    public Dorm  findDormInfoByCode(int code) {
         return dormInfoRepository.findByCode(code);
     }
 
-	public DormInfo findDormInfoByCode(String name) {
+	public Dorm findDormInfoByCode(String name) {
 		// TODO Auto-generated method stub
 		return dormInfoRepository.findByName(name);
 	}

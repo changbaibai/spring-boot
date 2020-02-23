@@ -49,10 +49,10 @@
 		<artifactId>spring-boot-starter-security</artifactId>
 	</dependency>
 	
-  <dependency>
-	    <groupId>com.microsoft.sqlserver</groupId>
-	    <artifactId>sqljdbc4</artifactId>
-	    <version>4.0</version>
+	<!-- 添加MySQL依赖 -->
+    <dependency>
+		<groupId>mysql</groupId>
+		<artifactId>mysql-connector-java</artifactId>
 	</dependency>
 	        <!--POI-->
         <dependency>

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import dms.pojo.DormInfo;
+import dms.pojo.Dorm;
 import dms.pojo.Student;
 import dms.service.StudentService;
 
@@ -55,7 +55,7 @@ public class StudentController {
 		  Student student = new Student();
 		  student.setSno(sno);
 	      List<Map<String, Object>> list = studentService.getStusByDynamic(student);
-	        for( Map map1: list){
+	        for( @SuppressWarnings("rawtypes") Map map1: list){
 	        	model.addAttribute("id", map1.get("id"));
 	        	model.addAttribute("name", map1.get("name"));
 	        	model.addAttribute("address", map1.get("address"));
@@ -69,9 +69,9 @@ public class StudentController {
 	  }
 
     @RequestMapping("/addStudent")
-    public String add(Student student,DormInfo dorminfo) {
+    public String add(Student student,Dorm dorm) {
     	
-    	student.setDorminfo(dorminfo);
+    	student.setDorm(dorm);
     	studentService.saveAll(student);
         return "redirect:/admin/getStusByDynamic";
     }
@@ -79,13 +79,13 @@ public class StudentController {
 
 
     @RequestMapping("/addDormInfo")
-    public String add(DormInfo dormInfo) {
+    public String add(Dorm dormInfo) {
     	studentService.saveDormInfoAll(dormInfo);
         return "redirect:/admin/listDormInfo";
     }
     @RequestMapping("/listDormInfo")
     public String listDormInfo(Model model) {
-        List<DormInfo> dormInfo = studentService.getDormInfoList();
+        List<Dorm> dormInfo = studentService.getDormInfoList();
         model.addAttribute("dormInfo", dormInfo);
         return "admin/dormInfoList";
     }
@@ -93,20 +93,20 @@ public class StudentController {
 
     @RequestMapping("/toEditDormInfo")
 	    public String toEditClazz(Model model, int id) {
-	    	DormInfo dormInfo= studentService.findDormInfoByCode(id);
+	    	Dorm dormInfo= studentService.findDormInfoByCode(id);
 	        model.addAttribute("dormInfo",dormInfo);
 	        return "admin/editDormInfo"; 
 	    }
     @RequestMapping("/getDorm")
-    public String getByName(Model model,DormInfo dormInfo) {
+    public String getByName(Model model,Dorm dormInfo) {
     	String name =dormInfo.getName();
-    	DormInfo dormInfo1= studentService.findDormInfoByCode(name);
+    	Dorm dormInfo1= studentService.findDormInfoByCode(name);
         model.addAttribute("dormInfo",dormInfo1);
         return "admin/dormInfoList"; 
     }
 	 
     @RequestMapping("/editDormInfo")
-    public String editDormInfo(DormInfo dormInfo) {
+    public String editDormInfo(Dorm dormInfo) {
         studentService.saveDormInfoAll(dormInfo);
         return "redirect:/admin/listDormInfo";
     }

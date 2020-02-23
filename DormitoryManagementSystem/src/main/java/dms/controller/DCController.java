@@ -1,3 +1,4 @@
+
 package dms.controller;
 
 import java.io.IOException;
@@ -32,7 +33,7 @@ public class DCController {
 	// 注入StudentService
 	@Resource
 	private DCService dcService;
-    @RequestMapping("toiIndex")
+    @RequestMapping("toIndex")
     public String index(Model model) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         model.addAttribute("username", username);
@@ -41,7 +42,7 @@ public class DCController {
 
     @RequestMapping("/index")
     public String list(Model model) {
-        List<DC> dcs = dcService.getStudentList();
+        List<DC> dcs = dcService.getDCList();
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         model.addAttribute("dcs", dcs);
         model.addAttribute("username", username);
@@ -97,8 +98,9 @@ public class DCController {
 	@RequestMapping(value = "/export")
 	@ResponseBody
 	public void export(HttpServletResponse response) throws IOException {
-		List<DC> dcs = dcService.getStudentList();
+		List<DC> dcs = dcService.getDCList();
 
+		@SuppressWarnings("resource")
 		HSSFWorkbook wb = new HSSFWorkbook();
 
 		HSSFSheet sheet = wb.createSheet("获取excel测试表格");
@@ -159,7 +161,6 @@ public class DCController {
 
 	}
 
-
 	@RequestMapping(value = "/import")
 	public String exImport(@RequestParam(value = "filename")MultipartFile file, HttpSession session) {
 
@@ -174,10 +175,6 @@ public class DCController {
 		}
 		return "redirect:/admin/index";
 	}
-
-
-
-
 
 
 

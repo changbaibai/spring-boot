@@ -3,11 +3,11 @@
 <head>
 
     <meta charset="UTF-8"/>
-    
     <title>dcList</title>
 	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
 	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
 
 </head>
 <body>
@@ -62,11 +62,11 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="myModalLabel">批量上传学生信息</h4>
             </div>
-            <div class="modal-body">
-	        <form class="form-horizontal" id="form_table" th:action="@{/admin/import}" enctype="multipart/form-data" method="post">      
-	        <input class="form-input" type="file" name="filename">批量上传学生信息</input>     
-	        <button type="submit" class="btn btn-info">导入</button>
-	         </form>
+            <div class="modal-body"> 
+	            <form class="form-horizontal" id="form_table" th:action="@{/admin/import}" enctype="multipart/form-data" method="post">      
+			        <input class="form-input" type="file" name="filename">批量上传学生信息</input>     
+			        <button type="submit" class="btn btn-info">导入</button>
+		         </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>

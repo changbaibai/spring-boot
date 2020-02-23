@@ -51,7 +51,7 @@ public class AppAuthenticationSuccessHandler extends SimpleUrlAuthenticationSucc
 
 			// 判断不同角色跳转到不同的url
 			if (isAdmin(roles)) {
-				url = "/admin/toiIndex";
+				url = "/admin/toIndex";
 			} else if (isUser(roles)) {
 				url = "/home";
 			}else if (isDba(roles)) {
