@@ -1,14 +1,37 @@
 package dms.repository;
 
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
+
+import javax.transaction.Transactional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 import dms.pojo.FKUser;
+import dms.pojo.LeaveSchool;
 
-public interface UserRepository extends JpaRepository<FKUser, Long>{
 
-	// 根据登录名查询出用户
-	FKUser findByLoginName(String loginName);
+public interface UserRepository extends PagingAndSortingRepository<FKUser,Integer>{
+
+	// 注意更新和删除是需要加事务的， 并且要加上 @Modify的注解
+    @Modifying
+    @Transactional
+    @Query("delete from FKUser s where s.id in (?1)")
+    
+    void deleteBatch(List<Integer> ids);
+
+ // 根据用户名名查询出用户
+    FKUser findByUsername(String name);
+    
+    FKUser findById(int id);
+	
+   
+	Page<FKUser> findByroles_Id(int id, Pageable pageable);
+
 
 
 }

@@ -1,0 +1,1624 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>首页</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+	<!-- Latest compiled and minified CSS -->
+		
+	<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table.min.css">
+	
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table.min.js"></script>
+	<!-- Latest compiled and minified Locales -->
+	<script src="https://unpkg.com/bootstrap-table@1.15.3/dist/locale/bootstrap-table-zh-CN.min.js"></script>
+	<script type="text/javascript" src="https://cdn.bootcss.com/bootbox.js/5.4.0/bootbox.js"></script>
+</head>
+
+
+<body>
+
+<div class="top">
+    <img  style="height:60px" alt="学生宿舍管理" src="/img/logo.png">
+    <div class="top_right">
+ 
+<div class="dropdown">
+	<a class="dropdown-toggle " data-toggle="dropdown" href="#" >
+		<span  th:if="${user} eq null" style="color:white">未登录!</span> <p th:text="${user}" style="color:white" /></a>
+		<ul class="dropdown-menu pull-right">
+			<li class="dropdown-item"><a href="#">个人中心</a></li>
+			<li class="dropdown-item"><a href="/login">登录</a></li>
+			<li class="dropdown-item"><a href="/toRegist">注册</a></li>
+			<li class="dropdown-item"><a  href="/logout">退出</a></li>
+		</ul>
+	</div>
+</div>
+</div>
+<div class="main_slide">
+    <div class="container">
+        <div class="row clearfix">
+            <!--大轮播图-->
+		        <div id="small_slider" class="carousel slide" data-ride="carousel">
+		            <!-- Indicators -->
+		            <ol class="carousel-indicators" id="olnum">
+		                <!--填充到这里-->
+		            </ol>
+		            <!-- Wrapper for slides -->
+		            <div class="carousel-inner" role="listbox" id="lunbotu">
+		                <!--填充到这里-->
+		            </div>
+		
+		            <!-- Controls -->
+		            <a class="left carousel-control" href="#small_slider" role="button" data-slide="prev">
+		                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+		                <span class="sr-only">Previous</span>
+		            </a>
+		            <a class="right carousel-control" href="#small_slider" role="button" data-slide="next">
+		                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+		                <span class="sr-only">Next</span>
+		            </a>
+		        </div>
+
+                 
+        </div>
+    </div>
+</div>
+<div class="main_body">
+    <div class="container">
+        <div class="row clearfix">
+            <div class="col-md-6 column">
+                <div class="list-group">
+                    <a href="/login" class="list-group-item active">
+                        <h4>
+                            公告
+                        </h4>
+
+                    </a>
+                    <div class="list-group-item" id="list_body">
+                     <table class="table" id="noticeTable" style="border:0"></table>		
+                    </div>
+ 
+                </div>
+            </div>
+            <div class="col-md-6 column">   
+                   <div class="container" style="width:100%"> 
+				            <!--小轮播图-->
+						        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+						            <!-- Indicators -->
+						            <ol class="carousel-indicators" id="small_olnum">
+						                <!--填充到这里-->
+						            </ol>
+						            <!-- Wrapper for slides -->
+						            <div class="carousel-inner" role="listbox" id="small_lunbotu">
+						                <!--填充到这里-->
+						            </div>
+						
+						            <!-- Controls -->
+						            <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+						                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+						                <span class="sr-only">Previous</span>
+						            </a>
+						            <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+						                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+						                <span class="sr-only">Next</span>
+						            </a>
+						        </div>
+					        
+				    </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="main">
+    <div class="container">
+        <div class="row clearfix">
+            <div class="col-md-2 column">
+                <div class="list-group">
+                    <a href="/login" class="list-group-item active">
+                        <h4 class="list-group-item-heading">
+                            我的应用
+                        </h4>
+
+                    </a>
+                    <button  class="list-group-item" type="button"  id="LeaveSchoolBtn" >
+                        <h5>
+                            <i><img  src="/img/离校.png"></i>
+                            离校返校登记
+                        </h5>
+                    </button>
+                    <button  class="list-group-item" type="button" id="goodsBtn" >
+                        <h5>
+                            <i><img  src="/img/物品.png"></i>
+                            物品出入登记
+                        </h5>
+                    </button>
+                  
+                   <button  class="list-group-item" type="button" id="repairBtn" >
+                        <h5 class="list-group-item-heading">
+                            <i><img  src="/img/维修.png"></i>
+                            维修申报
+                        </h5>
+                    </button>
+                
+         
+                    <a href="/login" class="list-group-item">
+                        <h5 class="list-group-item-heading">
+                            <i><img  src="/img/登录.png"></i>
+                            登录
+                        </h5>
+
+                    </a>
+                    <a href="/toRegist" class="list-group-item">
+                        <h5 class="list-group-item-heading">
+                            <i><img  src="/img/注册.png"></i>
+                            注册
+                        </h5>
+                    </a>
+                    
+                    <button  class="list-group-item" type="button"  id="personalCenter" >
+                        <h5>
+                            <i><img  src="/img/个人中心.png"></i>
+                            	  个人中心
+                        </h5>
+                     </button>
+
+                </div>
+            </div>
+            <div class="col-md-10 column">
+                <div class="list-group">
+                    <a  class="list-group-item active">
+                        <h4>
+                            卫生检查评分
+                        </h4>
+
+                    </a>
+                     <div class="list-group-item" id="list_body">
+                     <table class="table" id="healthRatingTable" style="border:0"></table>		
+                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="foot">
+    版权所有@桂林航天工业学院
+</div>
+<!-- 模态框 -->
+<!-- 信息绑定框（Modal） -->
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" >
+        <div class="modal-content" style="width:700px">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">信息绑定</h4>
+            </div>
+            <div class="modal-body">
+                <form id="updateForm" class="form-horizontal" action=" "  method="post">
+                    <div class="form-group">
+                        <label  class="col-sm-2 control-label">学号</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="sno" maxlength="20" placeholder="请输入您的学号"  />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">姓名</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="name"   maxlength="20"placeholder="请输入您的姓名" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="button" id="updateBtn" class="btn btn-info" name="button">确定</button>
+                            &nbsp; &nbsp; &nbsp;
+                            <input type="reset" value="重置" class="btn btn-danger"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<!-- 模态框 -->
+<!-- 离校返校登记框（Modal） -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" >
+        <div class="modal-content" style="width:700px">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">离校返校登记</h4>
+            </div>
+            <div class="modal-body">
+				<div class="panel panel-info">
+				    <div class="panel-heading">
+				        <h3 class="panel-title">离校登记</h3>
+				    </div>
+				    <div class="panel-body">
+				       <form id="updateForm" class="form-horizontal" action=" "  method="post" >
+	                    <div class="form-group">
+	                        <label  class="col-sm-2 control-label">目的地</label>
+	                        <div class="col-sm-5">
+	                            <input type="text" class="form-control" id="destination" maxlength="20" placeholder="请输入您的目的地"   th:value="*{address}" />
+	
+	                        </div>
+	                        <label class="col-sm-2 control-label">离校原因</label>
+	                        <div class="col-sm-2">
+	                            <input type="hidden" class="form-control" id="cause"   maxlength="20" placeholder=""  th:value="*{cause}" />
+	                            <div class="col-sm-2">
+	                                <select name="selectCause" class="btn btn-default"
+	                                        id="selectCause" >
+	                                    <option value="请假">请假</option>
+	                                    <option value="节假日放假">节假日放假</option>
+	                                </select>
+	                            </div>
+	                        </div>
+	                    </div>
+	                    <div class="form-group">
+	                        <label  class="col-sm-2 control-label">家长名字</label>
+	                        <div class="col-sm-3">
+	                            <input type="text" class="form-control" id="parentsName" name="parentsName" maxlength="8" placeholder="请输入家长名字"  th:value="*{parentsName}"  />
+	                        </div>
+	                        <label  class="col-sm-2 control-label">家长联系电话</label>
+	                        <div class="col-sm-5">
+	                            <input type="text" class="form-control" id="parentsPhone" name="parentsPhone" maxlength="11" placeholder="请输入家长联系电话" th:value="*{parentsPhone}"  />
+	                        </div>
+	                    </div>
+	                    <div class="form-group">
+	                        <div class="col-sm-offset-2 col-sm-10">
+	                            <button type="button" id="addBtn" class="btn btn-info" >提交</button>
+	                            &nbsp; &nbsp; &nbsp;
+	                            <input type="reset" value="重置" class="btn btn-danger"/>
+	                        </div>
+	                    </div>
+	                </form>
+				    </div>
+				</div>  
+				<div class="panel panel-success">
+				    <div class="panel-heading">
+				        <h3 class="panel-title">离校登记记录</h3>
+				    </div>
+				    <div class="panel-body">
+				       <table class="table" id="mytable" ></table>	
+				    </div>
+				</div>          
+
+                
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+<!-- 模态框 -->
+<!-- 物品出入登记信息框（Modal） -->
+<div class="modal fade" id="itemRecordModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" >
+        <div class="modal-content" style="width:700px">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">物品登记信息</h4>
+            </div>
+            <div class="modal-body">
+
+				<div class="panel panel-info">
+				    <div class="panel-heading">
+				        <h3 class="panel-title">物品登记</h3>
+				    </div>
+				    <div class="panel-body">
+				       <form id="updateForm" class="form-horizontal" action=" "  method="post">
+		                <div class="form-group">
+		                        <label class="col-sm-2 control-label">选择的携带的物品：</label>   
+		                            <div class="col-sm-2">
+		                                <select name="selectGoods" class="btn btn-default"
+		                                        id="selectGoods" >
+		                                    <option value="自行车">自行车</option>
+		                                    <option value="电脑">电脑</option>
+		                                    <option value="行李箱">行李箱</option>
+		                                                                                     
+		                                </select>
+		                            </div>
+		                     </div>
+		                      <div class="form-group">
+		                      <label class="col-sm-2 control-label">可以填写携带的物品：</label>
+		                               <div class="col-sm-5">
+		                                 
+		                                 <input class="form-control" id="goods"   maxlength="20" placeholder="请填写携带的物品"  th:value="*{goods}" />
+		                                </div>
+		                      </div>
+		
+		                    <div class="form-group">
+		                        <div class="col-sm-offset-2 col-sm-10">
+		                            <button type="button" id="addItemRecordBtn" class="btn btn-info" name="button">提交</button>
+		                            &nbsp; &nbsp; &nbsp;
+		                            <input type="reset" value="重置" class="btn btn-danger"/>
+		                        </div>
+		                    </div>
+		                </form>	
+				    </div>
+				</div>   
+				<div class="panel panel-success">
+				    <div class="panel-heading">
+				        <h3 class="panel-title">物品登记记录</h3>
+				    </div>
+				    <div class="panel-body">
+				        <table id="irtable"></table>
+				    </div>
+				</div>         	
+
+               	
+            </div>
+
+        </div>
+     </div><!-- /.modal-content -->
+</div><!-- /.modal -->
+
+<!-- 模态框 -->
+<!-- 维修申报框（Modal） -->
+<div class="modal fade" id="repairModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" >
+        <div class="modal-content" style="width:700px">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                 <h4 class="modal-title" id="myModalLabel">维修申报</h4>
+            </div>
+            <div class="modal-body">
+				<div class="panel panel-info">
+				    <div class="panel-heading">
+				        <h3 class="panel-title">申报</h3>
+				    </div>
+					<div class="panel-body">
+						        	 
+		                <form id="updateForm" class="form-horizontal" action=" "  method="post">
+		                
+		                <div class="form-group">
+		                        <label class="col-sm-2 control-label">选择的损坏物品：</label>   
+		                            <div class="col-sm-2">
+		                                <select name="selectRepair" class="btn btn-default"
+		                                        id="selectRepair" >
+		                                    <option value="灯坏">灯坏</option>
+		                                    <option value="水龙头坏">水龙头坏</option>
+		                                    <option value="门坏">门坏</option>
+		                                    <option value="门锁坏">门锁坏</option>
+		                                    <option value="厕所漏水">厕所漏水</option>
+		                                    <option value="天花板漏水">天花板漏水</option>
+		                                    <option value="风扇坏">风扇坏</option>                                                                    
+		                                </select>
+		                            </div>
+		                     </div>
+		                      <div class="form-group">
+		                      <label class="col-sm-2 control-label">可以填写损坏的物品：</label>
+		                               <div class="col-sm-5">
+		                                 
+		                                 <input class="form-control" id="repairContent"   maxlength="20" placeholder="请填写需要维修物品"  th:value="*{content}" />
+		                                </div>
+		                      </div>
+		
+		                    <div class="form-group">
+		                        <div class="col-sm-offset-2 col-sm-10">
+		                            <button type="button" id="addRepairBtn" class="btn btn-info" name="button">提交</button>
+		                            &nbsp; &nbsp; &nbsp;
+		                            <input type="reset" value="重置" class="btn btn-danger"/>
+		                        </div>
+		                    </div>
+		                </form>
+				    </div>
+				</div>	        
+				<div class="panel panel-success">
+				    <div class="panel-heading">
+				        <h3 class="panel-title">维修申请记录</h3>
+				    </div>
+				    <div class="panel-body">
+				        <table id="repairTable"></table>
+				    </div>
+				</div>	                                  
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<!-- 模态框 -->
+<!--个人中心 框（Modal） -->
+<div class="modal fade" id="personalModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" >
+        <div class="modal-content" style="width:700px">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">个人中心</h4>
+            </div>
+            <div class="modal-body">
+				<div class="panel panel-info">
+				    <div class="panel-heading">
+				        <h3 class="panel-title">爱好问卷</h3>
+				    </div>
+				    <div class="panel-body">
+				       <form id="updateForm" class="form-horizontal" action=" "  method="post" >
+	                    <div class="form-group">
+	                        <label class="col-sm-2 control-label">周末了你想干什么</label>
+	                        <div class="col-sm-2">
+	                            <input type="hidden" class="form-control" id="cause"   maxlength="20" placeholder=""  th:value="*{cause}" />
+	                            <div class="col-sm-2">
+	                                <select name="selectCause" class="btn btn-default"
+	                                        id="selectCause" >
+	                                    <option value="1">开心的泡图书馆</option>
+	                                    <option value="2">开心的打游戏</option>
+	                                     <option value="3">好好睡个懒觉</option>
+	                                     <option value="4">去游山玩水</option>
+	                                     <option value="5">买很多东西或吃很多好吃的</option>
+	                                </select>
+	                            </div>
+	                        </div>
+	                    </div>
+	                    <div class="form-group">
+	                        <div class="col-sm-offset-2 col-sm-10">
+	                            <button type="button" id="11Btn" class="btn btn-info" >提交</button>
+	                            &nbsp; &nbsp; &nbsp;
+	                            <input type="reset" value="重置" class="btn btn-danger"/>
+	                        </div>
+	                    </div>
+	                </form>
+				    </div>
+				</div>  
+				<div class="panel panel-success">
+						<div class="container">
+						  <h2>选项卡切换</h2>
+						  <br>
+						  <!-- Nav tabs -->
+						  <ul class="nav nav-tabs" role="tablist">
+						    <li class="nav-item">
+						      <a class="nav-link active" data-toggle="tab" href="#home">Home</a>
+						    </li>
+						    <li class="nav-item">
+						      <a class="nav-link" data-toggle="tab" href="#menu1">Menu 1</a>
+						    </li>
+						    <li class="nav-item">
+						      <a class="nav-link" data-toggle="tab" href="#menu2">Menu 2</a>
+						    </li>
+						  </ul>
+						
+						  <!-- Tab panes -->
+						  <div class="tab-content">
+						    <div id="home" class="container tab-pane active"><br>
+						      <h3>HOME</h3>
+						      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+						    </div>
+						    <div id="menu1" class="container tab-pane fade"><br>
+						      <h3>Menu 1</h3>
+						      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+						    </div>
+						    <div id="menu2" class="container tab-pane fade"><br>
+						      <h3>Menu 2</h3>
+						      <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+						    </div>
+						  </div>
+						</div>
+				</div>          
+
+                
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="questionnaireModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">小小调查问卷</h4>
+            </div>
+            <div class="modal-body">
+            	<form id="questionForm" class="form-horizontal" action=" "  method="post" >
+	                    <div class="form-group">
+	                        <label class="col-sm-2 control-label">周末了你想干什么</label>
+	                        <div class="col-sm-2">
+	                            <input type="hidden" class="form-control" id="tid"   maxlength="20" placeholder=""  th:value="*{tid}" />
+	                            <div class="col-sm-2">
+	                                <select name="selectTid" class="btn btn-default"
+	                                        id="selectTid" >
+	                                    <option value="1">开心的泡图书馆</option>
+	                                    <option value="2">开心的打游戏</option>
+	                                     <option value="3">好好睡个懒觉</option>
+	                                     <option value="4">去游山玩水</option>
+	                                     <option value="5">买很多东西或吃很多好吃的</option>
+	                                </select>
+	                            </div>
+	                        </div>
+	                    </div>
+	                    <div class="form-group">
+	                        <div class="col-sm-offset-2 col-sm-10">
+	                            <button type="button" id="addQuestionBtn" class="btn btn-info" >提交</button>
+	                            &nbsp; &nbsp; &nbsp;
+	                            <input type="reset" value="重置" class="btn btn-danger"/>
+	                        </div>
+	                    </div>
+	                </form>
+            
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+</body>
+<style>
+    body{
+        background-image: url(/img/background.jpg);
+        /* background-size:cover;  */
+    }
+    .top{
+        padding:0px;
+        margin:0px;
+        height:60px;
+        background-color:#0d4589;
+    }
+    .top_right{
+        color:white;
+        float:right;
+        margin-top:15px;
+         margin-right:50px;
+
+    }
+
+    .navbar{
+        background-color:#0d4589;
+    }
+    .carousel .item img{
+        height:400px;
+        width:100%;
+    }
+    .main{
+        margin-top:20px;
+    }
+    .main_col{
+        margin-top:20px;
+    }
+    .row a{
+        color:white;
+    }
+    .main_slide{
+        margin-top:20px;
+    }
+    .main_body{
+        margin-top:20px;
+    }
+
+    #main_table{
+        background-color:white;
+    }
+    .foot{
+        line-height:40px;
+        text-align:center;
+        color:white;
+        height:40px;
+        margin-top:20px;
+        background-color:#0d4589;
+    }
+
+</style>
+<script type="text/javascript">
+//  事由选择框赋值
+    $('#cause').val($('#selectCause').val());
+    $('#selectCause').change(function(){
+        $('#cause').val($('#selectCause').val());
+    });
+    
+  
+//     物品维修选择框赋值
+    $('#repairContent').val($('#selectRepair').val());
+    $('#selectRepair').change(function(){
+        $('#repairContent').val($('#selectRepair').val());
+    });
+  
+//     物品选择框赋值
+    $('#goods').val($('#selectGoods').val());
+    $('#selectGoods').change(function(){
+        $('#goods').val($('#selectGoods').val());
+    });
+    
+//  问卷赋值
+    $('#tid').val($('#selectTid').val());
+    $('#selectTid').change(function(){
+        $('#tid').val($('#selectTid').val());
+    });
+</script>
+<script type="text/javascript">
+function myfunction(id)
+{ 
+alert(id);
+}
+    function updateInfo()
+    { 
+
+        var id = $("#buttonId").val();
+        alert(id);
+        $.ajax({
+            url :"http://localhost:8080/superAdmin/updateLeaveSchool",
+            type : "POST",
+            data :{ // 提交数据
+                "id": id, // 前者为字段名，后者为数据
+         
+            },
+            success : function(result) {
+
+                //window.location 对象用于获得当前页面的地址 (URL)，并把浏览器重定向到新的页面。
+                //location.href 属性返回当前页面的 URL。
+                if (result == 1) {
+                    
+//                     $('#updateLeaveSchoolModal').modal('hide');
+                    $('#getLeaveSchoolInfo').click();
+                    
+									
+             }  
+                else  {
+                    alert("签到失败!");
+                }
+            },
+            error:function(){
+                alert("签到失败!");
+            }
+        });
+    }
+
+
+       
+</script>
+<script type="text/javascript"> 
+//初始化表格及分页
+function signTable() {
+    $('#mytable').bootstrapTable('destroy');
+    $("#mytable").bootstrapTable({
+        url:"http://localhost:8080/superAdmin/queryUerLeaveSchoolInfo", //个人离校返校信息查询接口
+        //最少要显示的列数
+        minimumCountColumns: 2,
+        height:300,
+        pagination:true,//开启分页
+        paginationLoop:true,//开启分页无限循环
+        pageNumber:1,//当前页数
+        pageSize:5,//每页条数
+        pageList:[5,10,15,20],//如果设置了分页，设置可供选择的页面数据条数。设置为All 则显示所有记录。
+        sidePagination:"server",
+        method:'post',//发送请求的方式
+        contentType:"application/x-www-form-urlencoded",//必须的否则条件查询时会乱码
+        queryParams:queryParams,
+        columns: [
+           {
+                field: 'des',
+                title: '目的地',
+
+            },{
+                field: 'cau',
+                title: '事由'
+      
+            },{
+                field: 'lt',         
+                title: '离校时间',
+                sortable: true,
+                //——修改——获取日期列的值进行转换
+                formatter: function (value, row, index) {
+                    return changeDateFormat(value);
+                }
+
+    
+                
+           
+            },{
+                field: 'rt',
+                title: '返校时间',
+                      	formatter:function(value,row,index){
+                    	if(value==null){
+                    		return '未回校签到!';
+                    	
+                    	}else{
+                    		 return changeDateFormat(value);
+                    	}
+                    }
+
+               
+            },{
+                field: 'pn',
+                title: '家长名字'
+              
+            },{
+                field: 'ph',
+                title: '家长电话'
+             
+            },{
+            	field: 'id',
+            	title: '操作',
+            	width: 100,
+            	align: 'center',
+            	valign: 'middle',
+            	events:delEvents,
+            	formatter:function(value,row,index){
+            		
+            		  //获取当前行数据
+                    var list = $("#mytable").bootstrapTable('getData')[index];
+              
+                	if(list.rt==null){
+                
+                		 return delFunction();
+                	}else{
+                		return '已完成！';
+                	}
+                }
+            }
+
+            ]
+    })
+}
+//操作栏的签到
+function delFunction(value,row,index){
+	return [
+		'<button type="button" class="btn btn-primary" id="del_btn">签到</button>'
+	].join('');
+}
+
+//签到事件
+window.delEvents ={
+    "click #del_btn":function(e,value,row,index)
+    {
+        console.log(row);
+	     bootbox.confirm({
+			size: "small",
+			message: "您确定已返校？",
+			buttons: {
+				confirm: {
+					label: '是',
+					className: 'btn-success'
+				},
+				cancel: {
+					label: '否',
+					className: 'btn-danger'
+				}
+			},
+			callback: function(result) {
+				if(result) {
+					$.ajax({
+			          method:"post",
+			          url:'/superAdmin/updateLeaveSchool',
+			          data:{
+			          	id:value,
+			          },
+
+			          async:true,
+			          success:function (res) {	
+			        	  if(res=="2"){
+			        		  alert("已签到过！")
+			        	  }else{
+			        		  $("#mytable").bootstrapTable('refresh');
+			        	  }
+			        
+			        	 
+			          }
+			        }); 
+				}
+			}
+		});	
+    }
+}
+
+//转换日期格式(时间戳转换为datetime格式)
+function changeDateFormat(date) {
+    if (date != null) {
+    	//date是传入的时间
+  	  let d = new Date(date);
+
+  	  let month = (d.getMonth() + 1) < 10 ? '0'+(d.getMonth() + 1) : (d.getMonth() + 1);
+  	  let day = d.getDate()<10 ? '0'+d.getDate() : d.getDate();
+  	  let hours = d.getHours()<10 ? '0'+d.getHours() : d.getHours();
+  	  let min = d.getMinutes()<10 ? '0'+d.getMinutes() : d.getMinutes();
+  	  let sec = d.getSeconds()<10 ? '0'+d.getSeconds() : d.getSeconds();
+  	  let times=d.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + min + ':' + sec;
+  	  return times
+    }
+}
+
+
+//得到查询的参数
+function queryParams(params) {
+    var temp = {
+        page:this.pageNumber,
+        rows:this.pageSize,
+    };
+    return temp;
+};
+//条件查询
+function searchButton(){
+    $("#mytable").bootstrapTable("refresh",{'pageNumber':1});
+}
+
+
+//页面加载
+$(function(){
+	signTable();
+});
+</script>
+<script type="text/javascript"> 
+//初始化表格及分页
+function itemRecordable() {
+    $('#irtable').bootstrapTable('destroy');
+    $("#irtable").bootstrapTable({
+        url:"http://localhost:8080/superAdmin/queryUerItemRecordInfo", //个人离校信息查询接口
+        striped: true,//隔行变色
+        
+        //是否启用点击选中行
+        clickToSelect: false,
+        //最少要显示的列数
+        minimumCountColumns: 5,
+        height:300,
+
+        pagination:true,//开启分页
+        paginationLoop:true,//开启分页无限循环
+        pageNumber:1,//当前页数
+        pageSize:5,//每页条数
+        pageList:[5,10,15,20],//如果设置了分页，设置可供选择的页面数据条数。设置为All 则显示所有记录。
+        sidePagination:"server",
+        method:'post',//发送请求的方式
+        contentType:"application/x-www-form-urlencoded",//必须的否则条件查询时会乱码
+        queryParams:queryParams,
+        columns: [
+           {
+                field: 'gs',
+                title: '携带物品',
+
+            },{
+                field: 'lt',         
+                title: '出去时间',
+                sortable: true,
+                //——修改——获取日期列的值进行转换
+                formatter: function (value, row, index) {
+                    return changeDateFormat(value);
+                }
+
+    
+                
+           
+            },{
+                field: 'rt',
+                title: '返回时间',
+                      	formatter:function(value,row,index){
+                    	if(value==null){
+                    		return '未进行返回签到!';
+                    	}else{
+                    		 return changeDateFormat(value);
+                    	}
+                    }
+
+               
+            },{
+            	field: 'id',
+            	title: '操作',
+            	width: 100,
+            	align: 'center',
+            	valign: 'middle',
+            	events:delEvents,
+            	formatter:function(value,row,index){
+            		
+        		  //获取当前行数据
+                var list = $("#irtable").bootstrapTable('getData')[index];
+ 
+              	if(list.rt==null){
+              
+              		 return delFunction();
+              	}else{
+              		return '已完成！';
+              	}
+              }
+            }
+
+            ]
+    })
+}
+//操作栏的签到
+function delFunction(value,row,index){
+	return [
+		'<button type="button" class="btn btn-primary" id="do_btn">签到</button>'
+	].join('');
+}
+
+//签到事件
+window.delEvents ={
+    "click #do_btn":function(e,value,row,index)
+    {
+        console.log(row);
+	     bootbox.confirm({
+			size: "small",
+			message: "您确定已返校？",
+			buttons: {
+				confirm: {
+					label: '是',
+					className: 'btn-success'
+				},
+				cancel: {
+					label: '否',
+					className: 'btn-danger'
+				}
+			},
+			callback: function(result) {
+				if(result) {
+					$.ajax({
+			          method:"post",
+			          url:'/superAdmin/updateLeaveSchool',
+			          data:{
+			          	id:value,
+			          },
+
+			          async:true,
+			          success:function (res) {	
+			        	  if(res=="2"){
+			        		  alert("已签到过！")
+			        	  }else{
+			        		  $("#mytable").bootstrapTable('refresh');
+			        	  }
+			        
+			        	 
+			          }
+			        }); 
+				}
+			}
+		});	
+    }
+}
+
+
+//得到查询的参数
+function queryParams(params) {
+    var temp = {
+        page:this.pageNumber,
+        rows:this.pageSize,
+    };
+    return temp;
+};
+//条件查询
+function searchButton(){
+    $("#irtable").bootstrapTable("refresh",{'pageNumber':1});
+}
+
+
+//页面加载
+$(function(){
+	itemRecordable();
+});
+</script>
+
+
+<script type="text/javascript"> 
+//初始化表格及分页
+function repairTable() {
+    $('#repairTable').bootstrapTable('destroy');
+    $("#repairTable").bootstrapTable({
+        url:"http://localhost:8080/superAdmin/queryUerRepairInfo",
+        striped: true,//隔行变色
+        searchOnEnterKey:true,//设置为 true时，按回车触发搜索方法，否则自动触发搜索方法  
+        //是否启用点击选中行
+        clickToSelect: false,
+        height:300,
+        pagination:true,//开启分页
+        paginationLoop:true,//开启分页无限循环
+        pageNumber:1,//当前页数
+        pageSize:8,//每页条数
+        pageList:[8,16,24,40,60,80],//如果设置了分页，设置可供选择的页面数据条数。设置为All 则显示所有记录。
+        sidePagination:"server",
+        method:'post',//发送请求的方式
+        contentType:"application/x-www-form-urlencoded",//必须的否则条件查询时会乱码
+        queryParams:queryParams,
+        columns: [
+        {
+                field: 'co',
+                title: '损坏物品 '
+      
+            },
+            {
+                field: 'st',
+                title: '处理进度',
+              	formatter:function(value,row,index){
+                	if(value=="0"){
+                		return '待处理';
+                	}
+                	else if(value=="1"){
+                		return '已通知维修人员';
+                	}
+					else if(value=="2"){
+                		return '已完成维修';
+                	}
+                }
+      
+            },{
+                field: 'name',         
+                title: '维修人员',
+              	formatter:function(value,row,index){
+                	if(value==null){
+                		return '暂无维修人员';
+                	}else{
+                		return value;
+                	}
+                	
+                }
+           
+            }
+
+            ]
+    })
+}
+
+
+
+
+//得到查询的参数
+function queryParams(params) {
+    var temp = {
+        page:this.pageNumber,
+        rows:this.pageSize,
+    };
+    return temp;
+};
+//条件查询
+function searchButton(){
+    $("#repairTable").bootstrapTable("refresh",{'pageNumber':1});
+}
+
+
+//页面加载
+$(function(){
+	repairTable();
+});
+</script>
+<script type="text/javascript"> 
+//初始化表格及分页
+function noticeTable() {
+    $('#noticeTable').bootstrapTable('destroy');
+    $("#noticeTable").bootstrapTable({
+        url:"http://localhost:8080/superAdmin/queryNoticeInfo",
+        striped: true,//隔行变色
+        //searchOnEnterKey:true,//设置为 true时，按回车触发搜索方法，否则自动触发搜索方法
+        //是否启用点击选中行
+        clickToSelect: false,
+        height:335,
+        pagination:true,//开启分页
+        paginationLoop:true,//开启分页无限循环
+        pageNumber:1,//当前页数
+        pageSize:5,//每页条数
+        pageList:[5,10,15,20,40,60,80],//如果设置了分页，设置可供选择的页面数据条数。设置为All 则显示所有记录。
+        sidePagination:"server",
+        method:'post',//发送请求的方式
+        contentType:"application/x-www-form-urlencoded",//必须的否则条件查询时会乱码
+        queryParams:queryParams,
+        columns: [
+        {
+                field: 'text',
+                title: '公告内容'
+      
+            },{
+                field: 'time',         
+                title: '发布时间',
+                //——修改——获取日期列的值进行转换
+                formatter: function (value, row, index) {
+                    return changeDateFormat(value);
+                }    
+           
+            }
+            ]
+    })
+}
+
+
+
+
+
+//得到查询的参数
+function queryParams(params) {
+    var temp = {
+        page:this.pageNumber,
+        rows:this.pageSize,
+    };
+    return temp;
+};
+//条件查询
+function searchButton(){
+    $("#noticeTable").bootstrapTable("refresh",{'pageNumber':1});
+}
+
+
+//页面加载
+$(function(){
+     noticeTable();
+});
+</script>
+
+<script type="text/javascript"> 
+//初始化表格及分页
+function healthRatingTable() {
+    $('#healthRatingTable').bootstrapTable('destroy');
+    $("#healthRatingTable").bootstrapTable({
+        url:"http://localhost:8080/superAdmin/queryHealthRatingInfo",
+        striped: true,//隔行变色
+        searchOnEnterKey:true,//设置为 true时，按回车触发搜索方法，否则自动触发搜索方法  
+        //是否启用点击选中行
+        clickToSelect: false,
+        height:410,
+        pagination:true,//开启分页
+        paginationLoop:true,//开启分页无限循环
+        pageNumber:1,//当前页数
+        pageSize:8,//每页条数
+        pageList:[8,16,24,40,60,80],//如果设置了分页，设置可供选择的页面数据条数。设置为All 则显示所有记录。
+        sidePagination:"server",
+        method:'post',//发送请求的方式
+        contentType:"application/x-www-form-urlencoded",//必须的否则条件查询时会乱码
+        queryParams:queryParams,
+        columns: [
+        {
+                field: 'content',
+                title: '检查情况'
+      
+            },
+            {
+                field: 'grade',
+                title: '分数'
+      
+            },{
+                field: 'time',         
+                title: '检查时间',
+                //——修改——获取日期列的值进行转换
+                formatter: function (value, row, index) {
+                    return changeDateFormat(value);
+                }    
+           
+            },
+            {
+                field: 'dormName',
+                title: '所在宿舍'
+      
+            },
+            {
+                field: 'buildName',
+                title: '所在宿舍楼'
+      
+            }
+            ]
+    })
+}
+
+
+//转换日期格式(时间戳转换为datetime格式)
+function changeDateFormat(date) {
+    if (date != null) {
+    	//date是传入的时间
+  	  let d = new Date(date);
+  	  let month = (d.getMonth() + 1) < 10 ? '0'+(d.getMonth() + 1) : (d.getMonth() + 1);
+  	  let day = d.getDate()<10 ? '0'+d.getDate() : d.getDate();
+  	  let hours = d.getHours()<10 ? '0'+d.getHours() : d.getHours();
+  	  let min = d.getMinutes()<10 ? '0'+d.getMinutes() : d.getMinutes();
+  	  let sec = d.getSeconds()<10 ? '0'+d.getSeconds() : d.getSeconds();
+  	  let times=d.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + min + ':' + sec;
+  	  return times
+    }
+}
+
+
+//得到查询的参数
+function queryParams(params) {
+    var temp = {
+        page:this.pageNumber,
+        rows:this.pageSize,
+    };
+    return temp;
+};
+//条件查询
+function searchButton(){
+    $("#healthRatingTable").bootstrapTable("refresh",{'pageNumber':1});
+}
+
+
+//页面加载
+$(function(){
+	healthRatingTable();
+});
+</script>
+<script type="text/javascript">
+        $(function() {
+            $.ajax({      	          	
+                url: "http://localhost:8080/superAdmin/listSliderInfoAll",              
+                dataType: "json",
+                async: false,
+                success: function (data) {
+	            
+        var extend = data[0];
+        var project = extend.project;
+        var proimgsurl = extend.filepath;
+        //首先清空已有数据
+        $("#lunbotu").empty();
+        $("#olnum").empty();
+        //填充轮播图数
+        for(var i=0;i<data.length; i++){
+            if(i == 0){
+                $("#olnum").append("<li data-target='#carousel-example-generic' data-slide-to='0'  class='active'></li>")
+            }else{
+                $("#olnum").append("<li data-target='#carousel-example-generic' data-slide-to='"+i+"'></li>")
+            }
+        }
+        //填充每幅图像的具体信息             
+        for(var i = 0; i < data.length; i++) {
+            if(i == 0) {
+                $("#lunbotu").append("<div class='item active'>" +
+                        "<img src='" + data[i].filepath + "' alt=''>" +
+                        "<div class='carousel-caption'>" +                               
+                        "<h4>"+ data[i].title+ "</h4>"+
+                        "<p> " +  data[i].text + "</p>" +
+                        "</div>" +
+                        "</div>");
+            } else {
+                $("#lunbotu").append("<div class='item'>" +
+                        "<img src='" + data[i].filepath + "' alt=''>" +
+                        "<div class='carousel-caption'>" +
+                        "<h4>"+ data[i].title+ "</h4>"+
+                        "<p> " +  data[i].text + "</p>" +
+                        "</div>" +
+                        "</div>");
+            }
+        }
+                   }
+
+
+            });
+        });
+</script>
+
+ <script type="text/javascript">
+        $(function() {
+            $.ajax({	
+                url: "http://localhost:8080/superAdmin/listSmallSliderInfoAll",               
+                dataType: "json",
+                async: false,
+                success: function (data) {        
+        var extend = data[0];
+        var project = extend.project;
+        var proimgsurl = extend.filepath;
+        //首先清空已有数据
+        $("#small_lunbotu").empty();
+        $("#small_olnum").empty();
+        //填充轮播图数
+        for(var i=0;i<data.length; i++){
+            if(i == 0){
+                $("#small_olnum").append("<li data-target='#carousel-example-generic' data-slide-to='0'  class='active'></li>")
+            }else{
+                $("#small_olnum").append("<li data-target='#carousel-example-generic' data-slide-to='"+i+"'></li>")
+            }
+        }
+        //填充每幅图像的具体信息             
+        for(var i = 0; i < data.length; i++) {
+            if(i == 0) {
+                $("#small_lunbotu").append("<div class='item active'>" +
+                        "<img src='" + data[i].filepath + "' alt=''>" +
+                        "<div class='carousel-caption'>" +                               
+                        "<h4>"+ data[i].title+ "</h4>"+
+                        "<p> " +  data[i].text + "</p>" +
+                        "</div>" +
+                        "</div>");
+            } else {
+                $("#small_lunbotu").append("<div class='item'>" +
+                        "<img src='" + data[i].filepath + "' alt=''>" +
+                        "<div class='carousel-caption'>" +
+                        "<h4>"+ data[i].title+ "</h4>"+
+                        "<p> " +  data[i].text + "</p>" +
+                        "</div>" +
+                        "</div>");
+            }
+        }
+                   }
+
+
+            });
+        });
+ </script>
+
+<script type="text/javascript">
+    //信息是否绑定检查
+    $(function(){
+        $("#LeaveSchoolBtn").click(function(){
+            var DormData;
+            $.ajax({
+                url:'http://localhost:8080/superAdmin/checkerUser',
+                type:"post",
+                async: false,
+                contentType:"application/json;charset=UTF-8",
+                dataType:"json",
+                success:function(data){
+                    DormData = data;
+                    if(DormData=="0"){
+                        alert("您未完成信息绑定！接下来你可以完成信息绑定。");
+                        // 显示信息绑定模态框
+                        $('#updateModal').modal('show');
+                    }
+                    if(DormData=="1"){
+                        // 显示离校登记模态框
+                        $('#addModal').modal('show');
+                    }
+                    if(DormData=="2"){
+                   	 alert("您非学生账号！");
+                      
+                   }
+
+                },
+                error:function(){
+                    alert("未登录！");
+                }
+            });
+        });
+    });
+    $(function(){$("#updateBtn").click(function() {
+        if ($("#sno").val() != ""
+            && $("#name").val() != "" 
+        ) {
+            var sno = $("#sno").val();
+            var name = $("#name").val();
+
+            $.ajax({
+                url :"http://localhost:8080/superAdmin/addStudentId",
+                type : "POST",
+                data :{ // 提交数据
+                    "sno": sno, // 前者为字段名，后者为数据
+                    "name": name,
+                },
+                success : function(result) {
+
+                    //window.location 对象用于获得当前页面的地址 (URL)，并把浏览器重定向到新的页面。
+                    //location.href 属性返回当前页面的 URL。
+                    if (result == 1) {
+                        alert("信息绑定成功");
+                        $('#updateModal').modal('hide');
+                        // 显示离校登记模态框
+                        $('#addModal').modal('show');
+										
+                 }   
+                    else if (result == 0) {
+                        alert("绑定失败!请检查信息是否正确！");
+                    }
+                },
+                error:function(){
+                    alert("绑定失败!请检查信息是否正确！");
+
+                }
+            });
+        } else {
+            alert("未填完信息！");
+        }
+    });
+    });
+
+
+    $(function(){$("#addBtn").click(function() {
+        if ($("#destination").val() != ""
+            && $("#cause").val() != "" && $("#parentsName").val() != ""
+            && $("#parentsPhone").val() != ""
+        ) {
+            var des = $("#destination").val();
+            var cau = $("#cause").val();
+            var pn = $("#parentsName").val();
+            var ph = $("#parentsPhone").val();
+            $.ajax({
+                url :"http://localhost:8080/superAdmin/addLeaveSchool",
+                type : "POST",
+                data :{ // 提交数据
+                    "des": des, // 前者为字段名，后者为数据
+                    "cau": cau,
+                    "pn":pn,
+                    "ph":ph
+                },
+                success : function(result) {
+
+                    //window.location 对象用于获得当前页面的地址 (URL)，并把浏览器重定向到新的页面。
+                    //location.href 属性返回当前页面的 URL。
+                    if (result == 1) {
+                        alert("登记成功");
+                        signTable();
+//                         $('#addModal').modal('hide');
+
+										
+                 }   else if (result == 0) {
+                        alert("登记失败!");
+                    }
+                }
+            });
+        } else {
+            alert("未填完信息！");
+        }
+    });
+    });
+
+    //信息是否绑定检查
+    $(function(){
+        $("#goodsBtn").click(function(){
+            var DormData;
+            $.ajax({
+                url:'http://localhost:8080/superAdmin/checkerUser',
+                type:"post",
+                async: false,
+                contentType:"application/json;charset=UTF-8",
+                dataType:"json",
+                success:function(data){
+                    DormData = data;
+                    if(DormData=="0"){
+                        alert("您未完成信息绑定！接下来你可以完成信息绑定。");
+                        // 显示信息绑定模态框
+                        $('#updateModal').modal('show');
+                    }
+                    
+                    if(DormData=="1"){
+                        // 显示物品登记模态框
+                        $('#itemRecordModal').modal('show');
+                    }
+                    if(DormData=="2"){
+                    	 alert("您非学生账号！");
+                       
+                    }
+
+                },
+                error:function(){
+                    alert("未登录！");
+                }
+            });
+        });
+    });
+   
+    
+    //物品登记提交
+    $(function(){$("#addItemRecordBtn").click(function() {
+        if ($("#goods").val() != ""
+        ) {
+            var goods = $("#goods").val();
+   
+            $.ajax({
+                url :"http://localhost:8080/superAdmin/addItemRecord",
+                type : "POST",
+                data :{ // 提交数据
+                    "goods": goods, // 前者为字段名，后者为数据 
+                },
+                success : function(result) {
+
+                    //window.location 对象用于获得当前页面的地址 (URL)，并把浏览器重定向到新的页面。
+                    //location.href 属性返回当前页面的 URL。
+                    if (result == 1) {
+                        alert("登记成功");
+                        itemRecordable();
+//                         $('#itemRecordModal').modal('hide');
+										
+                 }   else if (result == 0) {
+                        alert("登记失败!");
+                    }
+                 else  {
+                     alert("您不是学生!");
+                 }
+                }
+            });
+        } else {
+            alert("未填写携带物品信息！");
+        }
+    });
+    });
+    //维修申报前检查信息是否绑定
+    $(function(){
+        $("#repairBtn").click(function(){
+            var DormData;
+            $.ajax({
+                url:'http://localhost:8080/superAdmin/checkerUser',
+                type:"post",
+                async: false,
+                contentType:"application/json;charset=UTF-8",
+                dataType:"json",
+                success:function(data){
+                    DormData = data;
+                    if(DormData=="0"){
+                        alert("您未完成信息绑定！接下来你可以完成信息绑定。");
+                        // 显示信息绑定模态框
+                        $('#updateModal').modal('show');
+                    }
+                    if(DormData=="1"){
+                        // 维修申报模态框
+                        $('#repairModal').modal('show');
+                    }
+                    if(DormData=="2"){
+                    	 alert("您不是学生账号！");
+                    }
+                },
+                error:function(){
+                    alert("未登录！");
+                }
+            });
+        });
+    });
+ 
+//     维修信息提交
+    $(function(){$("#addRepairBtn").click(function() {
+        if ($("#repairContent").val() != ""
+        ) {
+            var re = $("#repairContent").val();
+   
+            $.ajax({
+                url :"http://localhost:8080/superAdmin/addRepair",
+                type : "POST",
+                data :{ // 提交数据
+                    "re": re, // 前者为字段名，后者为数据
+        
+                },
+                success : function(result) {
+
+                    //window.location 对象用于获得当前页面的地址 (URL)，并把浏览器重定向到新的页面。
+                    //location.href 属性返回当前页面的 URL。
+                    if (result == 1) {
+                        alert("申请成功");
+                        repairTable();
+                        $('#repairModal').modal('hide');
+										
+                 }   else if (result == 0) {
+                        alert("申请失败!");
+                    }
+                }
+            });
+        } else {
+            alert("未填填写维修信息！");
+        }
+    });
+    });
+    
+    //检查否完成了调查问卷
+    $(function(){
+          
+            $.ajax({
+                url:'http://localhost:8080/superAdmin/checkerQuestionnaire',
+                type:"post",
+                async: false,
+                contentType:"application/json;charset=UTF-8",
+                dataType:"json",
+                success:function(data){   
+                    if(data=="0"){
+                        alert("请你您完成小的问卷调查！");
+                        // 显示信息绑定模态框
+                        $('#questionnaireModal').modal('show');
+                    }
+                   
+                }
+            });
+     
+    });
+    //问卷提交
+    $(function(){$("#addQuestionBtn").click(function() {
+        if ($("#tid").val() != ""
+        ) {
+            var tid= $("#tid").val();
+   
+            $.ajax({
+                url :"http://localhost:8080/superAdmin/addQuestionnaire",
+                type : "POST",
+                data :{ // 提交数据
+                    "tid": tid, // 前者为字段名，后者为数据
+        
+                },
+                success : function(result) {
+
+                    //window.location 对象用于获得当前页面的地址 (URL)，并把浏览器重定向到新的页面。
+                    //location.href 属性返回当前页面的 URL。
+                    if (result == 1) {
+                        alert("提交成功");
+                        $('#repairModal').modal('hide');
+										
+                 }   else if (result == 0) {
+                        alert("提交失败!");
+                    }
+                }
+            });
+        } else {
+            alert("未选择信息！");
+        }
+    });
+    });
+
+</script>
+</html>

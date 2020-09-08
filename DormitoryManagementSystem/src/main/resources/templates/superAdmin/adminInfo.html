@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>宿舍管理员账号信息页</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+	<!-- Latest compiled and minified CSS -->
+		
+	<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table.min.css">
+	
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table.min.js"></script>
+	<!-- Latest compiled and minified Locales -->
+	<script src="https://unpkg.com/bootstrap-table@1.15.3/dist/locale/bootstrap-table-zh-CN.min.js"></script>
+	<script type="text/javascript" src="https://cdn.bootcss.com/bootbox.js/5.4.0/bootbox.js"></script>
+</head>
+<body>
+<ul class="breadcrumb">
+	<li><a href="#">宿舍管理</a></li>
+	<li class="active">管理员账号管理</li>
+</ul>
+<table class="table-responsive" id="healthRatingTable" ></table>	
+<!-- 添加框（Modal） -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">分配所管理宿舍楼<h4>
+            </div>
+            <div class="modal-body">
+	             <form class="form-horizontal" th:action="@{/superAdmin/addBuildingId}" method="post">
+	             	<div class="form-group">   
+			            <div class="col-sm-10">
+			                <input type="hidden" class="form-control" name="uid" id="uid" 
+			                       placeholder="请填写"/>
+			            </div>
+			        </div>
+			        <div class="form-group">
+			            <label for="Dorm_name" class="col-sm-2 control-label">所在楼宇</label>
+			            <div class="col-sm-10">
+				            <select id="selectBuildingAdd" class="btn btn-default dropdown-toggle btn-sm">				           
+							</select>
+			                <input type="hidden" class="form-control" name="bid" id="bid" 
+			                       placeholder="请填写"/>
+			            </div>
+			        </div>
+			        <div class="form-group">
+			            <div class="col-sm-offset-2 col-sm-10">
+			                <input type="submit" value="提交" class="btn btn-info"/>
+			                &nbsp; &nbsp; &nbsp;
+			                <input type="reset" value="重置" class="btn btn-warning"/>
+			            </div>
+			        </div>
+	   			 </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>	
+</body>
+
+<script type="text/javascript"> 
+//初始化表格及分页
+function healthRatingTable() {
+    $('#healthRatingTable').bootstrapTable('destroy');
+    $("#healthRatingTable").bootstrapTable({
+        url:"http://localhost:8080/superAdmin/queryAdminInfo",
+        striped: true,//隔行变色
+        searchOnEnterKey:true,//设置为 true时，按回车触发搜索方法，否则自动触发搜索方法  
+        //是否启用点击选中行
+        clickToSelect: false,
+        pagination:true,//开启分页
+        paginationLoop:true,//开启分页无限循环
+        pageNumber:1,//当前页数
+        pageSize:8,//每页条数
+        pageList:[8,16,24,40,60,80],//如果设置了分页，设置可供选择的页面数据条数。设置为All 则显示所有记录。
+        sidePagination:"server",
+        method:'post',//发送请求的方式
+        contentType:"application/x-www-form-urlencoded",//必须的否则条件查询时会乱码
+        queryParams:queryParams,
+        columns: [
+      
+            {
+                field: 'userName',
+                title: '用户名'
+      
+            },
+            {
+                field: 'buildName',
+                title: '所管宿舍楼',
+              	formatter:function(value,row,index){
+                	if(value==null){
+                		return '未分配所管理宿舍！';
+                	}else{
+                		 return value;
+                	}
+                }
+      
+            },{
+            	field: 'id',
+            	title: '操作',
+            	width: 100,
+            	align: 'center',
+            	valign: 'middle',
+            	events:delEvents,
+            	formatter:delFunction
+            }
+            ]
+    })
+}
+
+//操作栏的签到
+function delFunction(value,row,index){
+	return [
+		'<button type="button" class="btn btn-primary" id="del_btn">分配管理宿舍楼</button>'
+	].join('');
+}
+
+//签到事件
+window.delEvents ={
+    "click #del_btn":function(e,value,row,index)
+    {
+     
+        console.log(value);
+        $("#uid").val(value);
+        $('#addModal').modal('show');
+	    
+			
+    }
+}
+
+//得到查询的参数
+function queryParams(params) {
+    var temp = {
+        page:this.pageNumber,
+        rows:this.pageSize,
+    };
+    return temp;
+};
+//条件查询
+function searchButton(){
+    $("#healthRatingTable").bootstrapTable("refresh",{'pageNumber':1});
+}
+
+
+//页面加载
+$(function(){
+	healthRatingTable();
+});
+</script>
+<script>
+var selectData;
+$.ajax({
+    url:'http://localhost:8080/superAdmin/getBuilding',
+    type:"post",
+    async: false,
+    contentType:"application/json;charset=UTF-8",
+    dataType:"json",
+    success:function(data){
+        selectData = data;
+    },
+    error:function(){
+        alert("Ajax请求错误...");
+
+    }
+});
+var initmenu = function(dropdown,menudata) {
+    var dropdown = $(dropdown);
+    function createNode(data) {
+        for(var key in data) {
+                html +='<option value="'+data[key]["id"]+'">'+data[key]["name"]+'</option>';
+        }
+        return html;
+    }
+    var html = createNode(menudata);
+    dropdown.append(html);
+
+}
+initmenu("#selectBuildingAdd",selectData);
+$('#bid').val($('#selectBuildingAdd').val());
+$('#selectBuildingAdd').change(function(){
+  	$('#bid').val($('#selectBuildingAdd').val());
+  });
+  
+
+
+
+</script>
+</html>

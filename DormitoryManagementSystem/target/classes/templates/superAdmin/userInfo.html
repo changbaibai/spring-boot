@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>studentList</title>
+	<link rel="stylesheet" href="/css/bootstrap.min.css">
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+
+</head>
+<script type="text/javascript">
+	$(function(){
+		$("#loginBtn").click(function(){
+			var name = $("#name");		
+			var username = $("#username");
+			var password = $("#password");
+			var repassword = $("#repassword");
+			var answer = $("#answer");
+			var msg = "";
+
+			 if(name.val() == ""){
+				msg = "名字不能为空!";
+				name.focus();
+			}else if(username.val() == ""){
+				msg = "用户名不能为空!";
+				username.focus();
+			}else if(password.val() == ""){
+				msg = "密码不能为空!";
+				password.focus();
+			}
+			11
+			
+			if(msg != ""){
+				alert(msg);
+				return false;
+			}
+			$("#addForm").submit();
+		});
+	});
+	
+
+</script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		// 全选/取消全部
+		$("#checkAllChange").click(function() {
+			if (this.checked == true) {
+				$(".checkboxId").each(function() {
+					this.checked = true;
+				});
+			} else {
+				$(".checkboxId").each(function() {
+					this.checked = false;
+				});
+			}
+		});
+		// 全选
+		$("#checkAll").click(function() {
+			$(".checkboxId").each(function() {
+				this.checked = true;
+			});
+		});
+		// 取消全部
+		$("#removeAll").click(function() {
+			$(".checkboxId").each(function() {
+				this.checked = false;
+			});
+		});
+		function remove(){
+			$(".checkboxId").each(function() {
+				this.checked = false;
+			});
+		}
+		// 反选
+		$("#reverse").click(function() {
+			$(".checkboxId").each(function() {
+				if (this.checked == true) {
+					this.checked = false;
+				} else {
+					this.checked = true;
+				}
+			})
+		});
+		//修改
+		$("#edit").click(function() {
+			var id ='';
+			$(".checkboxId").each(function(i) {
+				if (this.checked == true) {
+					id += this.value + ',';
+				}
+			});
+			if (0<id.length&&id.length<=4){
+                var userArr=new Array();
+                var i=0;
+                $('input:checkbox:checked').parent().siblings().each(function (index) {
+                    userArr[i++]=$(this).text()
+                });
+				$("#a").val(userArr[0]);
+ 			    $("#b").val(userArr[1]);
+ 			    $("#college_name").text(userArr[2]);
+ 			    $("#c").val(userArr[3]);
+			    // 显示模态框
+			    $('#editModal').modal('show');	
+			    remove();
+
+			}
+			else{
+				alert("请选择一条内容");
+				 remove();				
+			}
+		});
+		// 批量删除
+		$("#del").click(function() {
+			var ids ='';
+			$(".checkboxId").each(function(i) {
+				if (this.checked == true) {
+					ids += this.value + ',';
+				}
+			});
+			if (ids.length>0){			
+			alert("批量删除的内容用户编号为:" + ids);
+			window.location = "/superAdmin/deleteUser?id=" + ids;
+
+			}
+			else{
+				alert("未选择内容");			
+			}
+		});
+	});
+</script>
+<body>
+	
+			<nav class="navbar navbar-default navbar-inverse" role="navigation">
+				
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<form class="navbar-form navbar-left" role="search">
+						<div class="form-group">
+							<input type="text" class="form-control" name="clazzName" id="clazzName" placeholder="请输入用户名"/>
+						</div> <button type="submit" class="btn btn-default">搜索</button>
+					</form>
+				</div>
+				
+			</nav>
+			<div class="panel-body">
+					<div class="list-op" id="list_op">
+						<button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#addModal">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
+						</button>
+						<button type="button" class="btn btn-danger btn-sm" id="del">
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
+						</button>	
+						<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#uploadModal">
+							<span class="glyphicon glyphicon-upload" aria-hidden="true"></span>上传
+						</button>
+						<button type="button" class="btn btn-warning btn-sm" id="download"   >
+							<span class="glyphicon glyphicon-download" aria-hidden="true"></span>下载
+						</button>
+
+	
+					</div>
+				</div>
+
+<div class="with:80%">
+<div class="table-responsive">
+  <table class="table">
+        <thead>
+        <tr   class="active">
+            <th><input type="checkbox" id="checkAllChange" /></th>
+            <th>用户编号</th>
+            <th >用户名</th>
+            <th>权限</th> 
+            <th>操作</th> 
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user:${users}" >
+            <td ><input type="checkbox" class="checkboxId" th:value="${user.id}"/></td>  
+            <th scope="row" th:text="${user.id}"></th>
+            <th scope="row" th:text="${user.username}" ></th>
+            <th scope="row" >
+                <div th:switch="${user.authority}">
+					  <p th:case="ROLE_ADMIN">宿舍管理员权限</p>
+					  <p th:case="ROLE_STUDENT">学生权限</p>
+					  <p th:case="ROLE_SUPERADMIN">超级管理权限</p>
+				</div>
+			</th>
+
+            <td >
+	            <div class="dropdown" >
+					<button type="button" class="btn btn-info dropdown-toggle" id="dropdownMenu1" 
+							data-toggle="dropdown">
+						更改权限
+						<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+				
+						<li role="presentation" >
+							<a role="menuitem" tabindex="-1" th:href="@{/superAdmin/editRole(uid=${user.id},cid=2)}" >更改为超级管理权限</a>
+						</li>
+						<li role="presentation" s>
+							<a role="menuitem" tabindex="-1"th:href="@{/superAdmin/editRole(uid=${user.id},cid=3)}" >更改为宿舍管理员权限</a>
+						</li>
+					    <li role="presentation" >
+							<a role="menuitem" tabindex="-1"th:href="@{/superAdmin/editRole(uid=${user.id},cid=1)}" >更改为学生权限</a>
+						</li>
+					</ul>
+				</div>
+			</td>
+        </tr>
+        </tbody>
+    </table>
+ </div>
+
+ <div align="center">
+<nav aria-label="navigation">
+    <ul class="pagination" th:if="${TotalPages} gt '1'">
+
+      <li th:if="${TotalPages} gt '1'">
+        <a th:href="@{/superAdmin/showPageUser}">首页</a>
+      </li>
+      <li th:if="${Numbe} gt '1' ">
+        <a title="上一页" th:href="@{/superAdmin/showPageUser(page=${temp-1},totalPage=${TotalPages})}">
+          上一页
+        </a>
+      </li>
+      <li th:each="i:${#numbers.sequence(1,TotalPages)}" th:class="${Numbe eq i}?'active':''">
+        <a th:href="@{/superAdmin/showPageUser(page=${i-1},totalPage=${TotalPages})}" th:text="${i}"></a>
+      </li>
+      <li th:if="${Numbe} lt ${TotalPages} ">
+        <a title="下一页" th:href="@{/superAdmin/showPageUser(page=${temp+1},totalPage=${TotalPages})}">
+          下一页
+        </a>
+      </li>
+      <li id="lastPage" th:if="${TotalPages} gt '1'">
+        <a th:href="@{/superAdmin/showPageUser(page=${TotalPages-1},totalPage=${TotalPages})}">末页</a>
+     </li>
+    </ul>
+  </nav>
+</div>
+</div>
+
+<!-- 添加框（Modal） -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" >
+        <div class="modal-content" style="width:700px">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">添加新账号</h4>
+            </div>
+            <div class="modal-body">
+             <form id="addForm" class="form-horizontal" th:action="@{/superAdmin/addUser}"  method="post">
+			       <div class="col-md-10">
+			       	<div class="form-group">
+									 <label for="inputEmail3" class="col-sm-2 control-label">名字</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control" id="name" name="name" maxlength="8" placeholder="请输入您的名字"  />
+									</div>
+								</div>
+		                <div class="form-group">
+									 <label for="inputEmail3" class="col-sm-2 control-label">用户名</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control" id="username" name="username" maxlength="8" placeholder="请输入您的用户名"  />
+									</div>
+								</div>
+		
+								<div class="form-group">
+									 <label for="inputPassword3" class="col-sm-2 control-label">密码</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control" id="password" name="password" maxlength="8" placeholder="请输入您的密码"  />
+									</div>
+								</div>
+							<div class="form-group">
+							<input type="hidden" class="form-control" name="Data" id="id"   th:value="*{id}"
+		                       placeholder="请填写"/>
+									<label class="col-sm-2 control-label">添加账号类型</label>
+									<div class="col-sm-3">
+										<select name="addSelect" class="btn btn-default"
+										  id="addSelect" >
+											<option value="1">学生账号</option>
+											<option value="3">管理员账号</option>
+											<option value="2">超级管理员账号</option>
+										</select>
+									</div>
+							</div>
+					
+
+		
+		                </div>
+			
+			        <div class="form-group">
+			            <div class="col-sm-offset-2 col-sm-10">
+			                <button type="button" id="loginBtn" class="btn btn-info" name="button">提交</button>
+			                &nbsp; &nbsp; &nbsp;
+			                <input type="reset" value="重置" class="btn btn-warning"/>
+			            </div>
+			        </div>
+   		   </form>
+       </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+</body>
+<script type="text/javascript">
+$('#id').val($('#addSelect').val());
+$('#addSelect').change(function(){
+  	$('#id').val($('#addSelect').val());
+  });
+</script>
+</html>

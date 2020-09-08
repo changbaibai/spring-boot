@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>healthRatingList</title>
+	<link rel="stylesheet" href="/css/bootstrap.min.css">
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		// 全选/取消全部
+		$("#checkAllChange").click(function() {
+			if (this.checked == true) {
+				$(".checkboxId").each(function() {
+					this.checked = true;
+				});
+			} else {
+				$(".checkboxId").each(function() {
+					this.checked = false;
+				});
+			}
+		});
+		// 全选
+		$("#checkAll").click(function() {
+			$(".checkboxId").each(function() {
+				this.checked = true;
+			});
+		});
+		// 取消全部
+		$("#removeAll").click(function() {
+			$(".checkboxId").each(function() {
+				this.checked = false;
+			});
+		});
+		function remove(){
+			$(".checkboxId").each(function() {
+				this.checked = false;
+			});
+		}
+		// 反选
+		$("#reverse").click(function() {
+			$(".checkboxId").each(function() {
+				if (this.checked == true) {
+					this.checked = false;
+				} else {
+					this.checked = true;
+				}
+			})
+		});
+		//修改
+		$("#edit").click(function() {
+			var id ='';
+			$(".checkboxId").each(function(i) {
+				if (this.checked == true) {
+					id += this.value + ',';
+				}
+			});
+			if (0<id.length&&id.length<=4){
+                var userArr=new Array();
+                var i=0;
+                $('input:checkbox:checked').parent().siblings().each(function (index) {
+                    userArr[i++]=$(this).text()
+                });
+				$("#a").val(userArr[0]);
+ 			    $("#b").val(userArr[1]);
+ 			    $("#c").val(userArr[2]);	
+ 			    $("#d").val(userArr[3]);
+ 			    $("#dorm_name").text(userArr[4]);
+ 			    $("#e").val(userArr[6]);
+			    // 显示模态框
+			    $('#editModal').modal('show');	
+			    remove();
+
+			}
+			else{
+				alert("请选择一条内容");
+				 remove();				
+			}
+		});
+		// 批量删除
+		$("#del").click(function() {
+			var ids ='';
+			$(".checkboxId").each(function(i) {
+				if (this.checked == true) {
+					ids += this.value + ',';
+				}
+			});
+			if (ids.length>0){			
+			alert("批量删除的内容的编号为:" + ids);
+			window.location = "/superAdmin/deleteHealthRating?id=" + ids;
+
+			}
+			else{
+				alert("未选择内容");			
+			}
+		});
+	});
+</script>
+</head>
+<body>
+			<nav class="navbar navbar-default navbar-inverse" role="navigation">				
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<form class="navbar-form navbar-left" role="search">
+						<div class="form-group">
+							<input type="text" class="form-control" name="id" id="id" placeholder="宿舍名称"/>
+						</div> <button type="submit" class="btn btn-default">搜索</button>
+					</form>
+
+				</div>
+			</nav>
+<div class="panel-body">
+			<div class="list-op" id="list_op">
+						<button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#addModal">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
+						</button>
+						<button type="button" class="btn btn-info btn-sm" id="edit">
+							<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>修改
+						</button>
+						<button type="button" class="btn btn-danger btn-sm" id="del">
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
+						</button>	
+			</div>
+</div>
+<div class="table-responsive">
+  <table class="table">
+        <thead>
+	        <tr class="active">
+	            <th><input type="checkbox" id="checkAllChange" /></th>          
+	           <th>编号</th>
+	            <th>分数</th>
+	            <th>卫生检查情况</th>
+	            <th>宿舍名称</th>
+	            <th>所在楼宇</th>
+	            <th>检查时间</th>
+	        </tr>
+        </thead>
+        <tbody>
+	        <tr th:each="healthRating : ${healthRating}">
+	            <td><input type="checkbox" class="checkboxId" th:value="${healthRating.id}"/></td>
+	            <td  scope="row" th:text="${healthRating.id}"></td>
+	            <td th:text="${healthRating.grade}"></td>
+	            <td th:text="${healthRating.content}"></td>
+	            <td style="display:none" th:text="${healthRating.dorm.code}"></td>  
+	            <td th:text="${healthRating.dorm.name}"></td>  
+	            <td th:text="${healthRating.dorm.building.name}"></td>
+	             <td th:text="${healthRating.time}"></td>
+
+
+	        </tr>
+        </tbody>
+    </table> 
+ </div>
+ <!-- 分页栏 -->
+<div align="center">
+ <nav aria-label="navigation">
+    <ul class="pagination" th:if="${TotalPages} gt '1'">
+
+      <li th:if="${TotalPages} gt '1'">
+        <a th:href="@{/superAdmin/showPageHealthRating}">首页</a>
+      </li>
+      <li th:if="${Numbe} gt '1' ">
+        <a title="上一页" th:href="@{/superAdmin/showPageHealthRating(page=${temp-1},totalPage=${TotalPages})}">
+          上一页
+        </a>
+      </li>
+      <li th:each="i:${#numbers.sequence(1,TotalPages)}" th:class="${Numbe eq i}?'active':''">
+        <a th:href="@{/superAdmin/showPageHealthRating(page=${i-1},totalPage=${TotalPages})}" th:text="${i}"></a>
+      </li>
+      <li th:if="${Numbe} lt ${TotalPages} ">
+        <a title="下一页" th:href="@{/superAdmin/showPageHealthRating(page=${temp+1},totalPage=${TotalPages})}">
+          下一页
+        </a>
+      </li>
+      <li id="lastPage" th:if="${TotalPages} gt '1'">
+        <a th:href="@{/superAdmin/showPageHealthRating(page=${TotalPages-1},totalPage=${TotalPages})}">末页</a>
+     </li>
+    </ul>
+  </nav>
+ </div> 
+<!-- 添加框（Modal） -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">新增卫生检查信息</h4>
+            </div>
+            <div class="modal-body">
+	             <form class="form-horizontal" th:action="@{/superAdmin/addHealthRating}" method="post">
+			        
+			        <div class="form-group">
+			            <label for="name" class="col-sm-2 control-label">分数</label>
+			            <div class="col-sm-9">
+			                <input type="text" class="form-control" name="grade"  
+			                       placeholder="请填写"/>
+			            </div>
+			        </div>
+			        
+			        <div class="form-group">
+			            <label for="name" class="col-sm-2 control-label">卫生描述</label>
+			            <div class="col-sm-9">
+			                       <textarea rows="10" cols="60" name="content" ></textarea>
+			            </div>
+			        </div>
+			        
+			        
+			        <div class="form-group">
+			            <label for="College_code" class="col-sm-2 control-label">所在宿舍</label>
+			            <div class="col-sm-10">
+				            <select id="selectDorm" class="btn btn-default dropdown-toggle btn-sm">
+							</select>
+			                <input type="hidden" class="form-control" name="code" id="code" 
+			                       placeholder="请填写"/>
+			            </div>
+			        </div> 
+			        <div class="form-group">
+			            <div class="col-sm-offset-2 col-sm-10">
+			                <input type="submit" value="提交" class="btn btn-info"/>
+			                &nbsp; &nbsp; &nbsp;
+			                <input type="reset" value="重置" class="btn btn-warning"/>
+			            </div>
+			        </div>
+	   			 </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<!-- 编辑框（Modal） -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">更改</h4>
+            </div>
+            <div class="modal-body">
+             <form class="form-horizontal" th:action="@{/superAdmin/editHealthRating}" method="post">
+             	
+             	<div class="form-group">
+		            <div class="col-sm-10">
+		                <input type="hidden"  class="form-control"  name="id" id="a" th:value="*{id}" placeholder="请填写" >
+		            </div>
+		        </div>
+	        	<div class="form-group">
+		            <label for="name" class="col-sm-2 control-label">分数</label>
+		            <div class="col-sm-10">
+		                <input type="text" class="form-control" name="grade" id="b" th:value="*{grade}"
+		                       placeholder="请填写"/>
+		            </div>
+		        </div>
+		        
+		        <div class="form-group">
+		            <label for="name" class="col-sm-2 control-label">卫生描述</label>
+		            <div class="col-lg-10">
+		            <textarea rows="10" cols="60" name="content" id="c"></textarea>
+		            </div>
+		        </div>
+
+		        
+		        <div class="form-group">
+		            <label for="College_code" class="col-sm-2 control-label">所在宿舍</label>
+		            <div class="col-sm-10">
+			            <select id="selectDormEdit" class="btn btn-default dropdown-toggle btn-sm">
+			            <option id="dorm_name">更改所在宿舍</option>
+						</select>
+		                <input type="hidden" class="form-control" name="code" id="d"   th:value="*{code}"
+		                       placeholder="请填写"/>
+		            </div>
+		        </div>
+		        
+		        <div class="form-group">
+		            <div class="col-sm-10">
+		                <input type="hidden"  class="form-control"  name="date" id="e" th:value="*{date}" placeholder="请填写" >
+		            </div>
+		        </div>
+			           
+		        <div class="form-group">
+		            <div class="col-sm-offset-2 col-sm-10">
+		                <input type="submit" value="提交" class="btn btn-info"/>
+		                &nbsp; &nbsp; &nbsp;
+		                <input type="reset" value="重置" class="btn btn-warning"/>
+		            </div>
+		        </div>
+		    </form>
+		    </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+</body>
+<script>
+var DormData;
+var ClazzData;
+$.ajax({
+    url:'http://localhost:8080/superAdmin/getDorm',
+    type:"post",
+    async: false,
+    contentType:"application/json;charset=UTF-8",
+    dataType:"json",
+    success:function(data){
+        DormData = data;
+    },
+    error:function(){
+        alert("Ajax请求错误...");
+
+    }
+});
+
+var initmenu = function(dropdown,menudata) {
+    var dropdown = $(dropdown);
+    function createNode(data) {
+        for(var key in data) {
+                html +='<option value="'+data[key]["id"]+'">'+data[key]["name"]+'</option>';
+        }
+        return html;
+    }
+    var html = createNode(menudata);
+    dropdown.append(html);
+
+}
+initmenu("#selectDorm",DormData);
+$('#code').val($('#selectDorm').val());
+$('#selectDorm').change(function(){
+  	$('#code').val($('#selectDorm').val());
+  });
+  
+
+
+initmenu("#selectDormEdit",DormData);
+// $('#g').val($('#selectDormEdit').val());
+$('#selectDormEdit').change(function(){
+  	$('#g').val($('#selectDormEdit').val());
+  });
+  
+$('#selectLocation').change(function(){
+	window.location = "/superAdmin/showPageHealthRating?size=" + $('#selectLocation').val();
+  });
+
+</script>
+</html>

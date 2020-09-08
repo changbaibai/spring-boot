@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,64 +17,82 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import dms.pojo.FKRole;
 import dms.pojo.FKUser;
+import dms.pojo.SliderShow;
+import dms.repository.SliderShowRepository;
 import dms.service.UserService;
 
 @Controller
 public class AppController {
 	@Resource
 	private UserService userService;
+	@Autowired
+	private SliderShowRepository sliderShowRepository;
 
-	/*
-	 * @RequestMapping("/") public String index() { return "index"; }
-	 */
 
-	 @RequestMapping(value = "/login")
+	@RequestMapping(value = "/login")
     public String login() {
         return "login";
     }
-	 @RequestMapping(value = "/toRegist")
+	@RequestMapping(value = "/toRegist")
 	    public String toRegist() {
 	        return "regist";
 	    }
-	 
-
-	    @RequestMapping("/regist")
-	    public String add(FKUser fkuser) {
-	    	FKRole role =new FKRole();
-	    	long a=1;
-	    	role.setId(a);
-	    	role.setAuthority("ROLE_USER");
-	    	List<FKRole> roles =Arrays.asList(role);
-	    	fkuser.setRoles(roles);
-	    	System.out.println("注册注册注册注册注册注册注册"+fkuser);
-	    	userService.save(fkuser);
-	        return "login";
+	@RequestMapping(value = "/toIndex")
+	    public String toIndex(Model model) {
+		model.addAttribute("role", getAuthority());
+    	return "student/index";
 	    }
-	    
+    @RequestMapping("/regist")
+    @ResponseBody
+    public String regist(FKUser fkuser,@RequestParam(value = "name",required=false)String name,@RequestParam(value = "username",required=false)String username
+    		,@RequestParam(value = "password",required=false)String password,@RequestParam(value = "answer",required=false)String answer) {
+    	FKRole role =new FKRole();
+    	fkuser.setName(name);
+    	fkuser.setUsername(username);
+    	fkuser.setPassword(password);
+    	fkuser.setAnswer(answer);
+    	int a=1;
+    	role.setId(a);
+    	role.setAuthority("ROLE_STUDENT");
+    	List<FKRole> roles =Arrays.asList(role);
+    	FKUser user =userService.findByUsername(fkuser.getUsername());
+    	if (user==null) {
+	    	fkuser.setRoles(roles);
+	    	FKUser u =userService.save(fkuser);
+	    	if(u!=null) {
+	    		return "1";
+	    	}else {
+	    		return "2";
+	    	}
+    	}else {
+    		return "0";
+    	}
 
-
-	@RequestMapping("/home")
+    }
+	@RequestMapping("/student")
     public String homePage(Model model) {
     	model.addAttribute("user", getUsername());
     	model.addAttribute("role", getAuthority());
-        return "home";
+        return "/student/index";
+    }
+    
+    @RequestMapping(value = "/superAdmin")
+    public String superAdminPage(Model model) {
+    	model.addAttribute("user", getUsername());
+    	model.addAttribute("role", getAuthority());
+        return "/superAdmin/index";
     }
     
     @RequestMapping(value = "/admin")
-    public String adminPage(Model model) {
-    	model.addAttribute("user", getUsername());
-    	model.addAttribute("role", getAuthority());
-        return "admin";
-    }
-    
-    @RequestMapping(value = "/dba")
     public String dbaPage(Model model) {
     	model.addAttribute("user", getUsername());
     	model.addAttribute("role", getAuthority());
-		return "dba";
+		return "/admin/index";
     }
     
     @RequestMapping(value = "/accessDenied")
@@ -93,7 +112,6 @@ public class AppController {
 			new SecurityContextLogoutHandler().logout(request, response, auth);
 		}
 		// 重定向到login页面
-//		return "redirect:/login?logout";esz
 		return "login";
 	}
     
@@ -102,9 +120,8 @@ public class AppController {
     * */
     private String getUsername(){
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		System.out.println("username = " + username);
+	
 		UserDetails user=(UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		System.out.println(user);
 		
 		return username;
 	}
@@ -120,8 +137,6 @@ public class AppController {
 		for (GrantedAuthority a : authentication.getAuthorities()) {
 			roles.add(a.getAuthority());
 		}
-		System.out.println("role = " + roles);
 		return roles.toString();
-	}
-    
+	}  
 }

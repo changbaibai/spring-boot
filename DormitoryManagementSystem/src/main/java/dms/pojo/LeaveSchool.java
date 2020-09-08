@@ -2,7 +2,10 @@ package dms.pojo;
 
 
 
+import java.util.Date;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -10,24 +13,25 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 @Table(name="tb_leaveSchool")
 public class LeaveSchool {
-	
-
-	
+		
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	private String destination;
 	private String cause;
-	private String leavingTime;
-	private String returnTime;
+	private Date leavingTime;
+	private Date returnTime;
 	private String parentsName;
 	private String parentsPhone;
-    //映射多对一的关联关系
-    @JoinColumn(name="student_id")//关联user表的字段
-    @ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY,
+			targetEntity=Student.class
+			)
+	@JoinColumn(name="studentId",referencedColumnName="id")
 	private Student student;
     
 	public int getId() {
@@ -48,19 +52,21 @@ public class LeaveSchool {
 	public void setCause(String cause) {
 		this.cause = cause;
 	}
-	public String getLeavingTime() {
+
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	public Date getLeavingTime() {
 		return leavingTime;
 	}
-	public void setLeavingTime(String leavingTime) {
+	public void setLeavingTime(Date leavingTime) {
 		this.leavingTime = leavingTime;
 	}
-	public String getReturnTime() {
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	public Date getReturnTime() {
 		return returnTime;
 	}
-	public void setReturnTime(String returnTime) {
+	public void setReturnTime(Date returnTime) {
 		this.returnTime = returnTime;
 	}
-	
 	public String getParentsName() {
 		return parentsName;
 	}
@@ -81,4 +87,9 @@ public class LeaveSchool {
 	}
 
 
-}
+	
+
+	}
+
+
+

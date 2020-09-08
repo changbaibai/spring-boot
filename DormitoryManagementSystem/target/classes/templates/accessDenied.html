@@ -9,13 +9,23 @@
 <script type="text/javascript" th:src="@{js/bootstrap.min.js}"></script>
 </head>
 <body>
-<div class="panel panel-primary">
-		<div class="panel-heading">
-			<h3 class="panel-title">AccessDenied页面</h3>
-		</div>
+<div class="main">
+<h3><font color="red"><span th:text="${user}">用户名</span></font>您的权限为<h3><font color="red"><span th:text="${role}"></span></font>无权访问
+	<a href="/logout">安全退出</a></h3>
 </div>
-	<h3><font color="red"><span th:text="${user}">用户名</span></font>, 您没有权限访问页面!
-	您的权限是<font color="red"><span th:text="${role}">权限</span></font><br/><br/>
-	<a href="logout">安全退出</a></h3>
 </body>
+<style>
+body{
+background-image: url(/img/background.jpg); 
+}
+.main{
+background: rgba(255,255,255,0.2);
+width:800px;
+height:200px;
+margin:auto;
+margin-top:200px;
+/*阴影*/
+text-align:center;
+}
+</style>
 </html>

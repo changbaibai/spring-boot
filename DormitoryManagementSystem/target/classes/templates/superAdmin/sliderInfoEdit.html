@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8"> 
+	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body class="container">
+<br/>
+<h1>轮播图编辑</h1>
+<br/><br/>
+<div class="with:80%">
+    <form class="form-horizontal"  action="/superAdmin/addSliderInfo"  method="post" enctype="multipart/form-data">
+    	<input type="hidden" name="id" th:value="${siderShow.id }"/>
+        <div class="form-group">
+            <label for="userName" class="col-sm-2 control-label">标题</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" name="title" th:value="${siderShow.title }"  id="title" placeholder="title"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="password" class="col-sm-2 control-label" >内容</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" name="text" th:value="${siderShow.text}" id="text" placeholder="text"/>
+            </div>
+        </div>
+        <div class="form-group">
+        	<label for="filepath" class="col-sm-2 control-label">图片</label>
+        	 <div class="col-sm-10">
+        	<img   width="750" height="450" id="preview" th:src="${siderShow.filepath}">
+        	<input type="hidden" class="form-control" name="filepath" th:value="${siderShow.filepath}" id="filepath" placeholder="路径"/>
+        	<input type="file" name="file" id="imgPicker"/>
+        	</div>
+        </div>
+        <script type="text/javascript">
+        document
+        .querySelector('#imgPicker')
+        .addEventListener('change', function(){
+            //当没选中图片时，清除预览
+            if(this.files.length === 0){
+                document.querySelector('#preview').src = '';
+                return;
+            }
+            //实例化一个FileReader
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                //当reader加载时，把图片的内容赋值给
+                document.querySelector('#preview').src = e.target.result;
+            };
+ 
+        //读取选中的图片，并转换成dataURL格式
+        reader.readAsDataURL(this.files[0]);
+        }, false);
+        </script>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="submit" value="保存" class="btn btn-info" />                   
+                 <a th:href="@{/superAdmin/listSliderInfo}"  class="btn btn-info">返回</a>
+            </div>
+ 
+        </div>
+    </form>
+</div>
+</body>
+</html>

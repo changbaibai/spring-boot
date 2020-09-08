@@ -1,6 +1,8 @@
 package dms.security;
 
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,8 +11,10 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 
 import dms.service.UserService;
 
@@ -24,6 +28,10 @@ public class AppSecurityConfigurer extends WebSecurityConfigurerAdapter{
 	// 依赖注入用户服务类
 	@Autowired
     private UserService userService;
+	
+	//数据源 
+	@Autowired
+	DataSource dataSource;
 	
 	// 依赖注入加密接口
 	@Autowired
@@ -45,6 +53,13 @@ public class AppSecurityConfigurer extends WebSecurityConfigurerAdapter{
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+	@Bean
+	JdbcTokenRepositoryImpl jdbcTokenRepository() {
+	    JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();
+	    jdbcTokenRepository.setDataSource(dataSource);
+	    return jdbcTokenRepository;
+	}
 	 
 	// DaoAuthenticationProvider是Spring Security提供AuthenticationProvider的实现
 	@Bean
@@ -59,7 +74,6 @@ public class AppSecurityConfigurer extends WebSecurityConfigurerAdapter{
         // 设置密码加密程序认证
         provider.setPasswordEncoder(passwordEncoder);
         
-        //new BCryptPasswordEncoder().encode(fkUser.getPassword().trim()))
         return provider;
     }
 	
@@ -68,6 +82,7 @@ public class AppSecurityConfigurer extends WebSecurityConfigurerAdapter{
     	System.out.println("AppSecurityConfigurer configure auth......");
     	// 设置认证方式。
     	auth.authenticationProvider(authenticationProvider);
+    	
 
     }
 
@@ -78,22 +93,35 @@ public class AppSecurityConfigurer extends WebSecurityConfigurerAdapter{
     @Override
     protected void configure(HttpSecurity http) throws Exception {
     	System.out.println("AppSecurityConfigurer configure http......");
-
-        http.csrf().disable();
+	   	 http.sessionManagement()
+	     .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+	     .invalidSessionUrl("/invalidSession.html"); 
+    	http.csrf().disable(); //取消放置csrf攻击的防护
         http.headers().frameOptions().disable();  //添加security对iframe的兼容
     	http.authorizeRequests()
     	// spring-security 5.0 之后需要过滤静态资源
-    	.antMatchers("/login","/toRegist","/regist","/css/**","/js/**","/img/*").permitAll() 
-	  	.antMatchers("/home").hasRole("USER")  //USER角色可访问路径
-	  	.antMatchers("/admin/**").hasRole("ADMIN")   //ADMIN角色可访问路径
+    	.antMatchers("/login","/toRegist","/regist","/toIndex","/css/**","/js/**","/img/**","/main/**","/quar/**","/bpus/**","/np/**","/favicon.ico","/bootstrap-table/**","/bootstrap-3.3.7-dist/**","/superAdmin/queryNoticeInfo","/superAdmin/queryHealthRatingInfo","/superAdmin/listSliderInfoAll","/superAdmin/listSmallSliderInfoAll","/temp-rainy/**","/superAdmin/addRepair","/superAdmin/queryUerItemRecordInfo","/superAdmin/queryUerRepairInfo","/superAdmin/checkerUser").permitAll() 
+	  	.antMatchers("/home","/superAdmin/addLeaveSchool","/superAdmin/addStudentId","/superAdmin/getLeaveSchool","/superAdmin/updateLeaveSchool","/superAdmin/getShowPage","/superAdmin/queryUerLeaveSchoolInfo","/superAdmin/queryMeetingOrderInfo","/superAdmin/addItemRecord","/superAdmin/queryUerItemRecordInfo","/superAdmin/checkerQuestionnaire","/superAdmin/addQuestionnaire").hasRole("STUDENT")  //学生可访问路径
+	  	.antMatchers("/superAdmin/showPageTimeSheet","/superAdmin/getAdminDormInfo","/superAdmin/getOneDormStudentInfo","/superAdmin/addTimeSheet","superAdmin/addVisitInfo","superAdmin/showPageVisitInfo","/superAdmin/delsVisitInfo").hasAnyRole("ADMIN","SUPERADMIN")  //宿舍管理员可访问路径
+	  	.antMatchers("/superAdmin/**").hasRole("SUPERADMIN")   //SUPERADMIN角色可访问路径	
 	  	.anyRequest().authenticated()
 	  	.and()
 	  	.formLogin().loginPage("/login").successHandler(appAuthenticationSuccessHandler)
-	  	.usernameParameter("loginName").passwordParameter("password")
+	  	.usernameParameter("username").passwordParameter("password")
 	  	.and()
 	  	.logout().permitAll()
 	  	.and()
+        .rememberMe()//记住我功能
+        .userDetailsService(userService)//设置用户业务层
+        .tokenRepository(jdbcTokenRepository())//设置持久化token
+        .tokenValiditySeconds(168* 60 * 60)//记住登录7天(168小时 * 60分钟 * 60秒)
+	  	.and()
 	  	.exceptionHandling().accessDeniedPage("/accessDenied");
+    	  // 禁用缓存
+    	  http.headers().cacheControl();
+    	  
     }
+
+
 		
 }

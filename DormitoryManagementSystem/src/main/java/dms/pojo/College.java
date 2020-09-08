@@ -3,6 +3,7 @@ package dms.pojo;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,22 +16,26 @@ public class College {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id ;
+	private int code;
 	private String name ;
 	// 院系与专业是一对多的关联
-	@OneToMany(mappedBy="college")     
-	private Set<Specialities> Specialities = new HashSet<>();
-	public College() {
-		
+	@OneToMany(
+			   fetch=FetchType.LAZY,
+			   targetEntity=Specialities.class,
+			   mappedBy="college"
+			)     
+	private Set<Specialities> Specialitiess = new HashSet<>();
+	public College() {	
 	}
 	public College(String name) {
 		this.name = name;
 	}
-	public int getId() {
-		return id;
+
+	public int getCode() {
+		return code;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setCode(int code) {
+		this.code = code;
 	}
 	public String getName() {
 		return name;
@@ -38,10 +43,12 @@ public class College {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Set<Specialities> getSpecialities() {
-		return Specialities;
+	public Set<Specialities> getSpecialitiess() {
+		return Specialitiess;
 	}
-	public void setSpecialitiesInfo(Set<Specialities> Specialities) {
-		this.Specialities = Specialities;
+	public void setSpecialitiess(Set<Specialities> specialitiess) {
+		Specialitiess = specialitiess;
 	}
+
+
 }

@@ -16,21 +16,26 @@ public class FKRole  {
 	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id")
-    private Long id;
+    private int id;
 	@Column(name="authority")
     private String authority;
     
 	public FKRole() {
 		super();
-		// TODO Auto-generated constructor stub
+		
 	}
-	public Long getId() {
+
+	
+	public int getId() {
 		return id;
 	}
-	public void setId(Long id) {
+
+
+	public void setId(int id) {
 		this.id = id;
 	}
-	
+
+
 	public String getAuthority() {
 		return authority;
 	}

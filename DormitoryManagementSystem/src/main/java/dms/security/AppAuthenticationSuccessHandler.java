@@ -50,35 +50,34 @@ public class AppAuthenticationSuccessHandler extends SimpleUrlAuthenticationSucc
 			}
 
 			// 判断不同角色跳转到不同的url
-			if (isAdmin(roles)) {
-				url = "/admin/toIndex";
-			} else if (isUser(roles)) {
-				url = "/home";
-			}else if (isDba(roles)) {
-				url = "/dba";
+			if (isSuperAdmin(roles)) {
+				url = "/superAdmin";
+			} else if (isStudent(roles)) {
+				url = "/student";
+			}else if (isAdmin(roles)) {
+				url = "/admin";
 			} else {
 				url = "/accessDenied";
 			}
-			System.out.println("url = " + url);
 			return url;
 		}
 
-		private boolean isUser(List<String> roles) {
-			if (roles.contains("ROLE_USER")) {
+		private boolean isStudent(List<String> roles) {
+			if (roles.contains("ROLE_STUDENT")) {
 				return true;
 			}
 			return false;
 		}
 
-		private boolean isAdmin(List<String> roles) {
-			if (roles.contains("ROLE_ADMIN")) {
+		private boolean isSuperAdmin(List<String> roles) {
+			if (roles.contains("ROLE_SUPERADMIN")) {
 				return true;
 			}
 			return false;
 		}
 		
-		private boolean isDba(List<String> roles) {
-			if (roles.contains("ROLE_DBA")) {
+		private boolean isAdmin(List<String> roles) {
+			if (roles.contains("ROLE_ADMIN")) {
 				return true;
 			}
 			return false;

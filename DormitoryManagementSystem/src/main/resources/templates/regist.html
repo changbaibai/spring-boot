@@ -6,23 +6,23 @@
     <title>用户注册</title>
 <link rel="stylesheet" th:href="@{css/bootstrap.min.css}" />
 <link rel="stylesheet" th:href="@{css/bootstrap-theme.min.css}"/> 
-<script type="text/javascript" th:src="@{js/jquery-1.11.0.min.js}"></script>
+<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
 <script type="text/javascript" th:src="@{js/bootstrap.min.js}"></script>
 
 <script type="text/javascript">
 	$(function(){
-		$("#loginBtn").click(function(){
-			var loginName = $("#loginName");
+		$("#registerBtn").click(function(){
+			var name = $("#name");
 			var username = $("#username");
 			var password = $("#password");
 			var repassword = $("#repassword");
+			var answer=$("#answer");
 			var msg = "";
-			if(loginName.val() == ""){
-				msg = "登录名称不能为空!";
-				loginName.focus();
-			}
-			else if(username.val() == ""){
-				msg = "用户名能为空!";
+			 if(name.val() == ""){
+					msg = "名字不能为空!";
+					name.focus();
+			}else if(username.val() == ""){
+				msg = "用户名不能为空!";
 				name.focus();
 			}else if(password.val() == ""){
 				msg = "密码不能为空!";
@@ -30,6 +30,10 @@
 			}else if(repassword.val()==""){
 				msg = "重复密码不能为空!";
 				password.focus();
+			}
+			else if(answer.val()==""){
+				msg = "答案不能为空!";
+				answer.focus();
 			}
 			else if(password.val() != repassword.val()){
 				msg = "密码不一致!";
@@ -39,67 +43,110 @@
 				alert(msg);
 				return false;
 			}
-			$("#registForm").submit();
+			
+			 $.ajax({
+	                url:'http://localhost:8080/regist',
+	                type : "POST",
+	                data :{ // 提交数据
+	                    "name": name.val(), // 前者为字段名，后者为数据
+	                    "username": username.val(),
+	                    "password":password.val(),
+	                    "answer": answer.val(),
+	                },
+	                success:function(data){                 
+	                    if(data=="1"){
+	                        alert("注册成功！");
+	                        window.location = "/login";
+	                    }
+
+	                    if(data=="2"){
+	                   	 alert("注册失败！");
+	                      
+	                   }
+	                    if(data=="0"){
+	                    	 alert("用户名已存在");	          
+	                    }
+
+	                },
+	                error:function(){
+	                    alert("出现错误！");
+	                }
+	            });
+		
 		});
 	});
+	
 </script>
 </head>
 <body>
     <div class="container">
         <div class="form row">
-            <div class="form-horizontal col-md-offset-3" id="login_form">
-                <h3 class="form-title">REGISTER</h3>
-                <form id="registForm" th:action="@{/regist}" method="post" class="form-horizontal">
-                <div class="col-md-9">
-
-                    <div class="form-group">
-                        <i class="fa fa-user fa-lg"></i>
-                        <input class="form-control required" type="text" placeholder="登录名" id="loginName" name="loginName"  maxlength="20"/>
-                    </div>
-                    <div class="form-group">
-                     <i class="fa fa-user fa-lg"></i>
-                        <input class="form-control required" type="text" placeholder="用户名" id="username" name="username"  maxlength="20"/>
-                    </div>
-                    <div class="form-group">
-                            <i class="fa fa-lock fa-lg"></i>
-                            <input class="form-control required" type="password" placeholder="密码" id="password" name="password" maxlength="8"/>
-                    </div>
-                   <div class="form-group">
-                            <i class="fa fa-lock fa-lg"></i>
-                            <input class="form-control required" type="password" placeholder="请输入重复密码" id="repassword" name="repassword" maxlength="8"/>
-                    </div>
-                    <div class="form-group">
-                        <label class="checkbox">
-                            <input type="checkbox" name="remember" value="1"/>记住我
-                        </label>
-                    </div>
-                    					
-                    <div class="form-group col-md-offset-9">
-                    
-                        <button type="button" id="loginBtn" class="btn btn-success pull-right" name="button">注册</button>
-                    </div>
-                </div>
+            <div class="form-horizontal col-md-offset-1" id="login_form">
+                <h3 class="form-title">用户注册</h3>
+                <form id="registForm"   method="post" class="form-horizontal">
+	                <div class="col-md-10">
+								<div class="form-group">
+									 <label for="inputEmail3" class="col-sm-2 control-label">名字</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control" id="name" name="name"  maxlength="8"placeholder="请输入您的名字" />
+									</div>
+								</div>
+								<div class="form-group">
+									 <label for="inputEmail3" class="col-sm-2 control-label">用户名</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control" id="username" name="username"  maxlength="8"placeholder="请输入您的用户名" />
+									</div>
+								</div>
+								<div class="form-group">
+									 <label for="inputPassword3" class="col-sm-2 control-label">密码</label>
+									<div class="col-sm-10">
+										<input type="password" class="form-control" id="password" name="password" maxlength="8" placeholder="请输入您的密码"  />
+									</div>
+								</div>
+								<div class="form-group">
+									 <label for="inputPassword3" class="col-sm-2 control-label">重复密码</label>
+									<div class="col-sm-10">
+										<input type="password" class="form-control" id="repassword" name="repassword" maxlength="8" placeholder="请输入您的密码" />
+									</div>
+								</div>
+							<div class="form-group">
+							<label class="col-sm-2 control-label">问题</label>
+							<div class="col-sm-2">
+								<select name="question" class="btn btn-default"
+								  id="question" >
+									<option value="1">你读的第一所小学</option>
+								</select>
+							</div>
+							<label class="col-sm-3 control-label">答案</label>
+							<div class="col-sm-5">
+								<input id="answer" name="answer"   type="text" class="form-control"  placeholder="请输入您的答案">
+							</div>
+						</div>
+								<div class="form-group">
+									<div class="col-sm-offset-2 col-sm-10">
+									<a href="/login">已有账号去登录</a>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-offset-2 col-sm-10">
+										 <button type="button" id="registerBtn" class="btn btn-success pull-right" name="button">注册</button>
+									</div>
+								</div>
+		
+		                </div>
+	               
                 </form>
             </div>
         </div>
     </div>
 </body>
 </html>
-
 <style>
 body{
-    background: url("../img/2.jpg") no-repeat; /* 不重复 */
-
+    background: url("../img/background.jpg") no-repeat; /* 不重复 */
     background-size: cover; /*  铺满 */
-    
-
-    
-    
-
 }
-
-.form{background: rgba(255,255,255,0.2);width:400px;margin:120px auto;}
+.form{background: rgba(255,255,255,0.2);width:800px;margin:auto;margin-top:100px}
 /*阴影*/
 .fa{display: inline-block;top: 27px;left: 6px;position: relative;color: #ccc;}
-input[type="text"],input[type="password"]{padding-left:26px;}
 .checkbox{padding-left:21px;}</style>
